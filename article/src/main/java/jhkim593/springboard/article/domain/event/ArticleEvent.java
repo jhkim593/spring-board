@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Event {
+public class MemberOutbox {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)

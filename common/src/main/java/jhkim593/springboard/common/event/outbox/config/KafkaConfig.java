@@ -1,11 +1,13 @@
 package jhkim593.springboard.common.outbox.config;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -21,7 +23,7 @@ import java.util.concurrent.Executors;
 @Configuration
 @ComponentScan("jhkim593.springboard.common")
 @EnableScheduling
-public class MessageRelayConfig {
+public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
@@ -48,5 +50,18 @@ public class MessageRelayConfig {
     @Bean
     public Executor messageRelayPublishPendingEventExecutor() {
         return Executors.newSingleThreadScheduledExecutor();
+    }
+
+    @Bean
+    public NewTopic exampleTopic() {
+        NewTopic build = TopicBuilder.name("test-topic-1")
+                .partitions(3)                          // 파티션 수 설정
+                .replicas(1)                             // 복제 팩터 설정 (1)
+                .config(                                            // 추가 설정
+                        TopicConfig.RETENTION_MS_CONFIG,
+                        String.valueOf(30 * 24 * 60 * 60 * 1000L)  // 7일
+                )
+                .build();
+        return build;
     }
 }
