@@ -1,4 +1,5 @@
 rootProject.name = 'spring-board'
 
 include "article"
+include "article-read"
 include "common"

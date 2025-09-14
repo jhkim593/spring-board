@@ -2,17 +2,18 @@ package jhkim593.springboard.article.domain.event;
 
 import jhkim593.springboard.common.event.EventType;
 import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
 import lombok.Getter;
 
 @Getter
-public class ArticleRegisteredEvent{
+public class ArticleUpdatedEvent {
     private final Long id;
-    private final ArticleRegisteredEventPayload payload;
+    private final ArticleUpdatedEventPayload payload;
     private final EventType eventType;
 
-    public ArticleRegisteredEvent(Long id, ArticleRegisteredEventPayload payload) {
+    public ArticleUpdatedEvent(Long id, ArticleUpdatedEventPayload payload) {
         this.id = id;
         this.payload = payload;
-        this.eventType = EventType.ARTICLE_REGISTERED;
+        this.eventType = EventType.ARTICLE_UPDATED;
     }
 }

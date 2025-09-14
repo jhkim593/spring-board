@@ -14,11 +14,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class MemberOutbox {
+public class ArticleEvent {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)
     private EventType eventType;
+    private Long articleId;
     private String payload;
+    private boolean published;
     private LocalDateTime createdAt;
+
+    public static ArticleEvent create(Long id, EventType eventType, Long articleId, String payload) {
+        return ArticleEvent.builder()
+                .id(id)
+                .eventType(eventType)
+                .articleId(articleId)
+                .payload(payload)
+                .published(false)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public void publishedUpdate() {
+        this.published = true;
+    }
 }
