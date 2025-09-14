@@ -1,6 +1,5 @@
 package jhkim593.springboard.common.event.payload;
 
-import jhkim593.springboard.common.event.EventPayload;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleCreatedEventPayload implements EventPayload {
+public class ArticleRegisteredEventPayload implements EventPayload {
     private Long articleId;
     private String title;
     private String content;

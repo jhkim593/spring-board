@@ -1,6 +1,6 @@
 package jhkim593.springboard.common.event;
 
-import kuke.board.common.dataserializer.DataSerializer;
+import jhkim593.springboard.common.event.payload.EventPayload;
 import lombok.Getter;
 
 @Getter
@@ -9,7 +9,7 @@ public class Event<T extends EventPayload> {
     private EventType type;
     private T payload;
 
-    public static Event<EventPayload> of(Long eventId, EventType type, EventPayload payload) {
+    public static Event<EventPayload> create(Long eventId, EventType type, EventPayload payload) {
         Event<EventPayload> event = new Event<>();
         event.eventId = eventId;
         event.type = type;

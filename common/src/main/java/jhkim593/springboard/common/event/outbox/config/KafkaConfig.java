@@ -1,7 +1,9 @@
-package jhkim593.springboard.common.outbox.config;
+package jhkim593.springboard.common.event.outbox.config;
 
+import jhkim593.springboard.common.event.Topic;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.TopicConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,6 @@ import java.util.concurrent.Executors;
 
 @EnableAsync
 @Configuration
-@ComponentScan("jhkim593.springboard.common")
 @EnableScheduling
 public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
@@ -53,8 +54,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic exampleTopic() {
-        NewTopic build = TopicBuilder.name("test-topic-1")
+    public NewTopic articleTopic() {
+        return TopicBuilder.name(Topic.ARTICLE)
                 .partitions(3)                          // 파티션 수 설정
                 .replicas(1)                             // 복제 팩터 설정 (1)
                 .config(                                            // 추가 설정
@@ -62,6 +63,5 @@ public class KafkaConfig {
                         String.valueOf(30 * 24 * 60 * 60 * 1000L)  // 7일
                 )
                 .build();
-        return build;
     }
 }

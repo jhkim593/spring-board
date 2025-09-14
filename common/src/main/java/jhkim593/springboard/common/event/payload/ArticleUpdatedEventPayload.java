@@ -1,6 +1,5 @@
 package jhkim593.springboard.common.event.payload;
 
-import jhkim593.springboard.common.event.EventPayload;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
