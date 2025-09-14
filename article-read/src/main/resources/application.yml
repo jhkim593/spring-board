@@ -1,0 +1,19 @@
+server:
+  port: 30031
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: article-read-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+  application:
+    name: article-read
+
+endpoints:
+  article-service: http://localhost:30030
