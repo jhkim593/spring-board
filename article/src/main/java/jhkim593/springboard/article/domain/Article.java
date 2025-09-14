@@ -4,6 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
+import jhkim593.springboard.common.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,8 +28,9 @@ public class Article {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public static Article create(ArticleRegisterDto request){
+    public static Article create(Long id, ArticleRegisterDto request){
         return Article.builder()
+                .articleId(id)
                 .title(request.getTitle())
                 .content(request.getContent())
                 .boardId(request.getBoardId())
@@ -35,6 +40,54 @@ public class Article {
                 .modifiedAt(LocalDateTime.now())
                 .build();
     }
+
+    public ArticleRegisteredEventPayload createRegisteredEventPayload(Long boardArticleCount){
+        return ArticleRegisteredEventPayload.builder()
+                .articleId(this.getArticleId())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .boardId(this.getBoardId())
+                .writerId(this.getWriterId())
+                .createdAt(this.getCreatedAt())
+                .modifiedAt(this.getModifiedAt())
+                .boardArticleCount(boardArticleCount)
+                .build();
+    }
+    public ArticleDeletedEventPayload createDeletedEventPayload(Long boardArticleCount){
+        return ArticleDeletedEventPayload.builder()
+                .articleId(this.getArticleId())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .boardId(this.getBoardId())
+                .writerId(this.getWriterId())
+                .createdAt(this.getCreatedAt())
+                .modifiedAt(this.getModifiedAt())
+                .boardArticleCount(boardArticleCount)
+                .build();
+    }
+    public ArticleUpdatedEventPayload createUpdatedEventPayload(){
+        return ArticleUpdatedEventPayload.builder()
+                .articleId(this.getArticleId())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .boardId(this.getBoardId())
+                .writerId(this.getWriterId())
+                .createdAt(this.getCreatedAt())
+                .modifiedAt(this.getModifiedAt())
+                .build();
+    }
+    public ArticleDetailDto createDetailDto(){
+        return ArticleDetailDto.builder()
+                .articleId(this.getArticleId())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .boardId(this.getBoardId())
+                .createdAt(this.getCreatedAt())
+                .modifiedAt(this.getModifiedAt())
+                .build();
+    }
+
+
     public void update(ArticleUpdateDto request){
         this.title = request.getTitle();
         this.content = request.getContent();

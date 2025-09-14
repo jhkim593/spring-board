@@ -1,10 +1,9 @@
 package jhkim593.springboard.article.application.required.repository;
 
-import jhkim593.springboard.article.domain.dto.ArticleSummaryDto;
+import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 
 import java.util.List;
 
 public interface ArticleQueryRepository {
-    List<ArticleSummaryDto> findArticlePage(Long boardId, Long pageNo, Long pageSize);
-    Long countArticlePage(Long boardId, Long limit);
+    List<ArticleDetailDto> findArticlePage(Long boardId, Long pageNo, Long pageSize);
 }

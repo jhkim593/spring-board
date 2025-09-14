@@ -2,40 +2,58 @@ package jhkim593.springboard.article.application;
 
 import jhkim593.springboard.article.application.provided.ArticleFinder;
 import jhkim593.springboard.article.application.provided.ArticleUpdater;
+import jhkim593.springboard.article.application.provided.BoardArticleCountUpdater;
 import jhkim593.springboard.article.application.required.event.EventPublisher;
 import jhkim593.springboard.article.application.required.repository.ArticleRepository;
 import jhkim593.springboard.article.domain.Article;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
-import jhkim593.springboard.article.domain.event.ArticleCreatedEvent;
+import jhkim593.springboard.common.snowflake.DBIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleUpdateService implements ArticleUpdater {
     private final ArticleFinder articleFinder;
     private final ArticleRepository articleRepository;
+    private final BoardArticleCountUpdater boardArticleCountUpdater;
+    private final DBIdGenerator idGenerator;
     private final EventPublisher eventPublisher;
 
     @Override
+    @Transactional
     public Article register(ArticleRegisterDto request) {
-        Article article = articleRepository.save(Article.create(request));
-        eventPublisher.publish(new ArticleCreatedEvent(article));
+        Article article = articleRepository.save(Article.create(idGenerator.getId(), request));
+
+        Long count = boardArticleCountUpdater.increase(article.getBoardId());
+
+        eventPublisher.registeredEventPublish(article.createRegisteredEventPayload(count));
         return article;
     }
 
     @Override
+    @Transactional
     public Article update(Long id, ArticleUpdateDto request) {
          Article article = articleFinder.findById(id);
          article.update(request);
-        return articleRepository.save(article);
+         article = articleRepository.save(article);
+
+         eventPublisher.updatedEventPublish(article.createUpdatedEventPayload());
+         return article;
     }
 
     @Override
+    @Transactional
     public Article delete(Long id) {
         Article article = articleFinder.findById(id);
         article.delete();
+        articleRepository.save(article);
+
+        Long count = boardArticleCountUpdater.decrease(article.getBoardId());
+        eventPublisher.deletedEventPublish(article.createDeletedEventPayload(count));
+
         return article;
     }
 }

@@ -1,11 +1,10 @@
 package jhkim593.springboard.article.adapter.persistence;
 
-import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jhkim593.springboard.article.application.required.repository.ArticleQueryRepository;
 import jhkim593.springboard.article.domain.QArticle;
-import jhkim593.springboard.article.domain.dto.ArticleSummaryDto;
-import jhkim593.springboard.article.domain.response.QArticleSummaryDto;
+import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,43 +17,41 @@ public class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     private QArticle qArticle = QArticle.article;
 
     @Override
-    public List<ArticleSummaryDto> findArticlePage(Long boardId, Long pageNo, Long pageSize) {
+    public List<ArticleDetailDto> findArticlePage(Long boardId, Long pageNo, Long pageSize) {
+        List<Long> articleIds = findArticleIds(boardId, pageNo, pageSize);
+        
+        if (articleIds.isEmpty()) {
+            return List.of();
+        }
         return queryFactory
                 .select(
-                    new QArticleSummaryDto(
+                    Projections.constructor(ArticleDetailDto.class,
                             qArticle.articleId,
                             qArticle.title,
                             qArticle.content,
                             qArticle.boardId,
                             qArticle.writerId,
-                            qArticle.createdAt
+                            qArticle.createdAt,
+                            qArticle.modifiedAt
                     )
                 )
                 .from(qArticle)
-                .where(qArticle.articleId.in(
-                        JPAExpressions
-                                .select(qArticle.articleId)
-                                .from(qArticle)
-                                .offset(pageNo * pageSize)
-                                .limit(pageSize)
-                                .where(
-                                    qArticle.deleted.isFalse()
-                                    .and(qArticle.boardId.eq(boardId))
-                                )
-                                .orderBy(qArticle.articleId.desc())
-                ))
+                .where(qArticle.articleId.in(articleIds))
                 .orderBy(qArticle.articleId.desc())
                 .fetch();
     }
-
-    @Override
-    public Long countArticlePage(Long boardId, Long limit) {
+    
+    private List<Long> findArticleIds(Long boardId, Long pageNo, Long pageSize) {
         return queryFactory
-                .select(qArticle.articleId.count())
+                .select(qArticle.articleId)
                 .from(qArticle)
-                .where(qArticle.boardId.eq(boardId))
+                .where(
+                    qArticle.deleted.isFalse()
+                    .and(qArticle.boardId.eq(boardId))
+                )
                 .orderBy(qArticle.articleId.desc())
-                .limit(limit)
-                .fetchOne();
+                .offset(pageNo * pageSize)
+                .limit(pageSize)
+                .fetch();
     }
 }
