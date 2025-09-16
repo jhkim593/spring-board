@@ -87,7 +87,6 @@ public class Article {
                 .build();
     }
 
-
     public void update(ArticleUpdateDto request){
         this.title = request.getTitle();
         this.content = request.getContent();

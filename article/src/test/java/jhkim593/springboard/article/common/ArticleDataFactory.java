@@ -1,6 +1,7 @@
-package jhkim593.springboard.article.common.data;
+package jhkim593.springboard.article.common;
 
 import jhkim593.springboard.article.domain.Article;
+import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,14 @@ public class ArticleDataFactory {
                 .createdAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now());
     }
+    private static ArticleRegisterDto.ArticleRegisterDtoBuilder defaultArticleRegisterDtoBuilder() {
+        return ArticleRegisterDto.builder()
+                .title(DEFAULT_TITLE)
+                .content(DEFAULT_CONTENT)
+                .boardId(DEFAULT_BOARD_ID)
+                .writerId(DEFAULT_WRITER_ID);
+    }
+
 
     public static Article createTestArticle() {
         return defaultArticleBuilder().build();
@@ -41,6 +50,16 @@ public class ArticleDataFactory {
                 .boardId(boardId)
                 .articleId(articleId)
                 .deleted(deleted)
+                .build();
+    }
+    public static ArticleRegisterDto createTestArticleRegisterDto() {
+        return defaultArticleRegisterDtoBuilder()
+                .build();
+    }
+
+    public static ArticleRegisterDto createTestArticleRegisterDto(Long boardId) {
+        return defaultArticleRegisterDtoBuilder()
+                .boardId(boardId)
                 .build();
     }
 }

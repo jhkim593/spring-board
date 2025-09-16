@@ -2,6 +2,7 @@ package jhkim593.springboard.article.application;
 
 import jhkim593.springboard.article.application.provided.ArticleFinder;
 import jhkim593.springboard.article.application.provided.ArticleUpdater;
+import jhkim593.springboard.article.application.provided.BoardArticleCountFinder;
 import jhkim593.springboard.article.application.provided.BoardArticleCountUpdater;
 import jhkim593.springboard.article.application.required.event.EventPublisher;
 import jhkim593.springboard.article.application.required.repository.ArticleRepository;
@@ -52,6 +53,7 @@ public class ArticleUpdateService implements ArticleUpdater {
         articleRepository.save(article);
 
         Long count = boardArticleCountUpdater.decrease(article.getBoardId());
+
         eventPublisher.deletedEventPublish(article.createDeletedEventPayload(count));
 
         return article;

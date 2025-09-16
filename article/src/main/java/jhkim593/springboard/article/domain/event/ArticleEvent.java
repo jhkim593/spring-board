@@ -1,9 +1,6 @@
 package jhkim593.springboard.article.domain.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jhkim593.springboard.common.event.EventType;
 import lombok.*;
 
@@ -20,6 +17,7 @@ public class ArticleEvent {
     @Enumerated(EnumType.STRING)
     private EventType eventType;
     private Long articleId;
+    @Column(columnDefinition = "TEXT")
     private String payload;
     private boolean published;
     private LocalDateTime createdAt;

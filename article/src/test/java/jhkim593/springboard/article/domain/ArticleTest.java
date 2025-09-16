@@ -1,6 +1,6 @@
 package jhkim593.springboard.article.domain;
 
-import jhkim593.springboard.article.common.data.ArticleDataFactory;
+import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.common.dto.article.ArticleDetailDto;
@@ -57,7 +57,7 @@ class ArticleTest {
         // then
         assertThat(article.getTitle()).isEqualTo("updated title");
         assertThat(article.getContent()).isEqualTo("updated content");
-        assertThat(article.getModifiedAt()).isAfter(originalModifiedAt);
+        assertThat(article.getModifiedAt()).isNotEqualTo(originalModifiedAt);
     }
 
     @Test

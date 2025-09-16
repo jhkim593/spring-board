@@ -12,4 +12,5 @@ public interface EventRepository extends Repository<ArticleEvent, Long> {
     ArticleEvent save(ArticleEvent event);
     Optional<ArticleEvent> findById(Long id);
     List<ArticleEvent> findAllByCreatedAtLessThanEqualOrderByCreatedAtAsc(LocalDateTime from, Pageable pageable);
+    Optional<ArticleEvent> findTopByOrderByCreatedAtDesc();
 }

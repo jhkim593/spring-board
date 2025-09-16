@@ -22,4 +22,10 @@ public class BoardArticleCount {
         boardArticleCount.articleCount = 1L;
         return boardArticleCount;
     }
+    public void increase() {
+        this.articleCount++;
+    }
+    public void decrease() {
+        this.articleCount--;
+    }
 }
