@@ -1,17 +1,14 @@
 package jhkim593.springboard.article.application.required.repository;
 
-import jhkim593.springboard.article.domain.Article;
+import jhkim593.springboard.article.domain.model.Article;
+import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ArticleRepository extends Repository<Article, Long> {
-    Optional<Article> findById(Long id);
-
+public interface ArticleRepository {
+    Article findById(Long id);
     Article save(Article article);
-
-    void deleteById(Long id);
-
-    Optional<Article> findTopByOrderByCreatedAtDesc();
+    List<ArticleDetailDto> findArticlePage(Long boardId, Long pageNo, Long pageSize);
 }

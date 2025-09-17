@@ -3,7 +3,7 @@ package jhkim593.springboard.article.adapter.api;
 import jhkim593.springboard.article.application.provided.ArticleFinder;
 import jhkim593.springboard.article.application.provided.ArticleUpdater;
 import jhkim593.springboard.article.application.provided.BoardArticleCountFinder;
-import jhkim593.springboard.article.domain.Article;
+import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.common.dto.article.ArticleDetailDto;
@@ -22,8 +22,7 @@ public class ArticleController {
 
     @GetMapping("/api/v1/articles/{id}")
     public ResponseEntity<ArticleDetailDto> getArticle(@PathVariable Long id) {
-        Article article = articleFinder.findById(id);
-        return ResponseEntity.ok(article.createDetailDto());
+        return ResponseEntity.ok(articleFinder.findById(id));
     }
 
     @GetMapping("/api/v1/articles")

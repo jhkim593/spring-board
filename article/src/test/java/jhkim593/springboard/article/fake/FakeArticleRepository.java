@@ -1,7 +1,7 @@
 //package jhkim593.springboard.article.fake;
 //
 //import jhkim593.springboard.article.application.required.repository.ArticleRepository;
-//import jhkim593.springboard.article.domain.Article;
+//import jhkim593.springboard.article.domain.model.Article;
 //
 //import java.time.LocalDateTime;
 //import java.util.*;

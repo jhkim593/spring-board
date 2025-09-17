@@ -1,9 +1,10 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
+import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
 import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
-import jhkim593.springboard.article.domain.BoardArticleCount;
+import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BoardArticleCountQueryServiceTest {
 
     @Autowired
-    private BoardArticleCountRepository boardArticleCountRepository;
+    private BoardArticleCountJpaRepository boardArticleCountRepository;
 
     @Autowired
     private BoardArticleCountQueryService boardArticleCountQueryService;
@@ -61,7 +62,7 @@ class BoardArticleCountQueryServiceTest {
         // given
         Long boardId = 200L;
         BoardArticleCount boardArticleCount = BoardArticleCount.create(boardId);
-        boardArticleCount.decrease(); 
+        boardArticleCount.decrease();
         boardArticleCountRepository.save(boardArticleCount);
 
         // when

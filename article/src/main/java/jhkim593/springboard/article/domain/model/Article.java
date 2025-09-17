@@ -1,4 +1,4 @@
-package jhkim593.springboard.article.domain;
+package jhkim593.springboard.article.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

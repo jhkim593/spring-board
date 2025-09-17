@@ -1,6 +1,6 @@
 package jhkim593.springboard.article.common;
 
-import jhkim593.springboard.article.domain.Article;
+import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 
 import java.time.LocalDateTime;

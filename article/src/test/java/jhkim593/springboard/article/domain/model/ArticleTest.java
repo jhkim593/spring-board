@@ -1,4 +1,4 @@
-package jhkim593.springboard.article.domain;
+package jhkim593.springboard.article.domain.model;
 
 import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;

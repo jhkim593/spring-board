@@ -1,8 +1,8 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
 import jhkim593.springboard.article.application.provided.BoardArticleCountUpdater;
 import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
-import jhkim593.springboard.article.domain.BoardArticleCount;
+import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class BoardArticleCountUpdateService implements BoardArticleCountUpdater 
 
     @Override
     public Long increase(Long boardId) {
-        BoardArticleCount boardArticleCount = boardArticleCountRepository.findById(boardId).orElse(null);
+        BoardArticleCount boardArticleCount = boardArticleCountRepository.findById(boardId);
         if(boardArticleCount == null) {
             boardArticleCount = BoardArticleCount.create(boardId);
             boardArticleCountRepository.save(boardArticleCount);
@@ -26,7 +26,7 @@ public class BoardArticleCountUpdateService implements BoardArticleCountUpdater 
 
     @Override
     public Long decrease(Long boardId) {
-        BoardArticleCount boardArticleCount = boardArticleCountRepository.findById(boardId).orElse(null);
+        BoardArticleCount boardArticleCount = boardArticleCountRepository.findById(boardId);
         if(boardArticleCount == null) {
             return 0L;
         }

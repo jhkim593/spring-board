@@ -1,13 +1,14 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
-import jhkim593.springboard.article.application.required.repository.ArticleRepository;
-import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
+import jhkim593.springboard.article.adapter.persistence.jpa.ArticleJpaRepository;
+import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
 import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
-import jhkim593.springboard.article.domain.Article;
-import jhkim593.springboard.article.domain.BoardArticleCount;
 import jhkim593.springboard.article.domain.error.ErrorCode;
+import jhkim593.springboard.article.domain.model.Article;
+import jhkim593.springboard.article.domain.model.BoardArticleCount;
+import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import jhkim593.springboard.common.dto.article.ArticlePageDto;
 import jhkim593.springboard.common.error.CustomException;
 import org.junit.jupiter.api.AfterEach;
@@ -27,10 +28,10 @@ class ArticleQueryServiceTest {
     private ArticleQueryService articleQueryService;
 
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleJpaRepository articleRepository;
 
     @Autowired
-    private BoardArticleCountRepository boardArticleCountRepository;
+    private BoardArticleCountJpaRepository boardArticleCountRepository;
 
     @Autowired
     private DBCleanManager cleanManager;
@@ -48,7 +49,7 @@ class ArticleQueryServiceTest {
         articleRepository.save(article);
 
         // when
-        Article result = articleQueryService.findById(articleId);
+        ArticleDetailDto result = articleQueryService.findById(articleId);
 
         // then
         assertThat(result).isNotNull();

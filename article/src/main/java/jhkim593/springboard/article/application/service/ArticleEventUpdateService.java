@@ -1,4 +1,4 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
 import jhkim593.springboard.article.application.provided.EventUpdater;
 import jhkim593.springboard.article.application.required.repository.EventRepository;

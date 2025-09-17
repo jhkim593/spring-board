@@ -1,16 +1,16 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
+import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
 import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
-import jhkim593.springboard.article.domain.BoardArticleCount;
+import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class BoardArticleCountUpdateServiceTest {
 
     @Autowired
-    private BoardArticleCountRepository boardArticleCountRepository;
+    private BoardArticleCountJpaRepository boardArticleCountRepository;
 
     @Autowired
     private BoardArticleCountUpdateService boardArticleCountUpdateService;

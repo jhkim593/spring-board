@@ -1,4 +1,4 @@
-package jhkim593.springboard.article.adapter.persistence.config;
+package jhkim593.springboard.article.adapter.persistence.jpa;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

@@ -1,14 +1,12 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
-import jhkim593.springboard.article.application.provided.ArticleFinder;
 import jhkim593.springboard.article.application.provided.ArticleUpdater;
-import jhkim593.springboard.article.application.provided.BoardArticleCountFinder;
 import jhkim593.springboard.article.application.provided.BoardArticleCountUpdater;
 import jhkim593.springboard.article.application.required.event.EventPublisher;
 import jhkim593.springboard.article.application.required.repository.ArticleRepository;
-import jhkim593.springboard.article.domain.Article;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
+import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.common.snowflake.DBIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ArticleUpdateService implements ArticleUpdater {
-    private final ArticleFinder articleFinder;
     private final ArticleRepository articleRepository;
     private final BoardArticleCountUpdater boardArticleCountUpdater;
     private final DBIdGenerator idGenerator;
@@ -37,7 +34,7 @@ public class ArticleUpdateService implements ArticleUpdater {
     @Override
     @Transactional
     public Article update(Long id, ArticleUpdateDto request) {
-         Article article = articleFinder.findById(id);
+         Article article = articleRepository.findById(id);
          article.update(request);
          article = articleRepository.save(article);
 
@@ -48,7 +45,7 @@ public class ArticleUpdateService implements ArticleUpdater {
     @Override
     @Transactional
     public Article delete(Long id) {
-        Article article = articleFinder.findById(id);
+        Article article = articleRepository.findById(id);
         article.delete();
         articleRepository.save(article);
 

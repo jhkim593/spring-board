@@ -1,14 +1,12 @@
-package jhkim593.springboard.article.application;
+package jhkim593.springboard.article.application.service;
 
 import jhkim593.springboard.article.adapter.event.SpringEventListener;
-import jhkim593.springboard.article.application.required.repository.ArticleRepository;
-import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
+import jhkim593.springboard.article.adapter.persistence.jpa.ArticleJpaRepository;
+import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
 import jhkim593.springboard.article.application.required.repository.EventRepository;
 import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
-import jhkim593.springboard.article.domain.Article;
-import jhkim593.springboard.article.domain.BoardArticleCount;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.article.domain.error.ErrorCode;
@@ -16,6 +14,8 @@ import jhkim593.springboard.article.domain.event.ArticleDeletedEvent;
 import jhkim593.springboard.article.domain.event.ArticleEvent;
 import jhkim593.springboard.article.domain.event.ArticleRegisteredEvent;
 import jhkim593.springboard.article.domain.event.ArticleUpdatedEvent;
+import jhkim593.springboard.article.domain.model.Article;
+import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import jhkim593.springboard.common.error.CustomException;
 import jhkim593.springboard.common.event.EventType;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,10 +41,10 @@ class ArticleUpdateServiceTransactionTest {
     private ArticleUpdateService articleUpdateService;
 
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleJpaRepository articleRepository;
 
     @Autowired
-    private BoardArticleCountRepository boardArticleCountRepository;
+    private BoardArticleCountJpaRepository boardArticleCountRepository;
 
     @Autowired
     private DBCleanManager cleanManager;
@@ -240,8 +241,8 @@ class ArticleUpdateServiceTransactionTest {
                 .isInstanceOf(RuntimeException.class);
 
         // 트랜잭션이 롤백되어 데이터가 저장되지 않았는지 확인
-        Optional<Article> article = articleRepository.findTopByOrderByCreatedAtDesc();
-        assertThat(article.isPresent()).isFalse();
+        List<Article> articles = articleRepository.findAll();
+        assertThat(articles.size()).isEqualTo(0);
 
         Optional<BoardArticleCount> boardArticleCount = boardArticleCountRepository.findById(boardId);
         assertThat(boardArticleCount.isPresent()).isFalse();
