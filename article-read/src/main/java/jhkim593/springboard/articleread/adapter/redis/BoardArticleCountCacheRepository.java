@@ -28,9 +28,18 @@ public class BoardArticleCountCacheRepository implements BoardArticleCountReposi
         String value = redisTemplate.opsForValue().get(generateKey(boardId));
         if(value != null) return Long.valueOf(value);
 
-        Long count = articleClient.getArticleCount(boardId);
+        Long count = getArticleCount(boardId);
         updateNotException(boardId, count);
         return count;
+    }
+
+    private Long getArticleCount(Long boardId) {
+        try {
+            return articleClient.getArticleCount(boardId);
+        } catch (Exception e) {
+            log.error("BoardArticleCountCacheRepository.getArticleCount articleClient.getArticleCount fail error", e);
+            return 0L;
+        }
     }
 
     @Override

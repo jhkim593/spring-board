@@ -15,5 +15,5 @@ public interface ArticleReadRepository {
 
     ArticleRead read(Long articleId);
 
-    Map<Long, ArticleRead> readAll(List<Long> articleIds);
+    List<ArticleRead> readAll(List<Long> articleIds);
 }

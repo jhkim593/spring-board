@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ArticleDeletedEventPayload implements EventPayload {
     private Long articleId;
-    private String title;
-    private String content;
     private Long boardId;
     private Long writerId;
     private LocalDateTime createdAt;

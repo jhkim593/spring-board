@@ -3,6 +3,7 @@ package jhkim593.springboard.articleread.domain;
 import jhkim593.springboard.articleread.domain.dto.ArticleReadDetailDto;
 import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -48,6 +49,17 @@ public class ArticleRead {
         articleRead.modifiedAt = articleDetailDto.getModifiedAt();
         articleRead.articleCommentCount = commentCount;
         articleRead.articleLikeCount = likeCount;
+        return articleRead;
+    }
+
+    public static ArticleRead create(ArticleUpdatedEventPayload payload) {
+        ArticleRead articleRead = new ArticleRead();
+        articleRead.articleId = payload.getArticleId();
+        articleRead.title = payload.getTitle();
+        articleRead.content = payload.getContent();
+        articleRead.boardId = payload.getBoardId();
+        articleRead.writerId = payload.getWriterId();
+        articleRead.modifiedAt = payload.getModifiedAt();
         return articleRead;
     }
 

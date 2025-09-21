@@ -17,6 +17,5 @@ public class ArticleUpdatedEventPayload implements EventPayload {
     private String content;
     private Long boardId;
     private Long writerId;
-    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

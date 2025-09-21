@@ -7,13 +7,10 @@ import jhkim593.springboard.articleread.application.required.repository.BoardArt
 import jhkim593.springboard.articleread.domain.ArticleRead;
 import jhkim593.springboard.articleread.domain.dto.ArticleReadDetailDto;
 import jhkim593.springboard.articleread.domain.dto.ArticleReadPageDto;
-import jhkim593.springboard.common.client.article.ArticleClient;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.*;
 
 @Service
@@ -23,7 +20,6 @@ public class ArticleReadQueryService implements ArticleReadFinder {
     private final ArticleReadRepository articleReadRepository;
     private final ArticleIdRepository articleIdRepository;
     private final BoardArticleCountRepository boardArticleCountRepository;
-    private final ArticleClient articleClient;
 
 //    //만약 redis에 없으면 조회하고 캐시에 저장
 //    private ArticleRead fetch(Long articleId) {
@@ -39,16 +35,24 @@ public class ArticleReadQueryService implements ArticleReadFinder {
 //        }
 //    }
 
-    public ArticleReadPageDto readAll(Long boardId, Long page, Long pageSize) {
-        List<Long> articleIds = articleIdRepository.readAll(boardId, page, pageSize);
+    @Override
+    public ArticleReadDetailDto read(Long articleId) {
+        ArticleRead articleRead = articleReadRepository.read(articleId);
+        return articleRead.createDetailDto();
+    }
+
+    @Override
+    public ArticleReadPageDto readPage(Long boardId, Long page, Long pageSize) {
+        List<Long> articleIds = articleIdRepository.read(boardId, ( page - 1 ) * pageSize, pageSize);
+        List<ArticleRead> articles = articleReadRepository.readAll(articleIds);
         return ArticleReadPageDto.create(
-                ArticleRead.createDetailDtos(readAll(articleIds)),
-                count(boardId)
+                ArticleRead.createDetailDtos(articles),
+                boardArticleCountRepository.count(boardId)
         );
     }
 
-    private List<ArticleRead> readAll(List<Long> articleIds) {
-        return new ArrayList<>(articleReadRepository.readAll(articleIds).values());
+//    private List<ArticleRead> readAll(List<Long> articleIds) {
+//        return new ArrayList<>(articleReadRepository.readAll(articleIds).values());
 //        return articleIds.stream()
 //                .map(articleId -> articleReadMap.containsKey(articleId) ?
 //                        articleReadMap.get(articleId) :
@@ -61,31 +65,31 @@ public class ArticleReadQueryService implements ArticleReadFinder {
 //                                viewClient.count(articleQueryModel.getArticleId())
 //                        ))
 //                .toList();
-    }
+//    }
 
     //TODO 이거 클라이언트 요청하는건 각 레포에 책임일듯
     // 각 레포에 데이터 없으면 클라이언트 조회하는 로직 추가하자
-    private List<Long> readAllArticleIds(Long boardId, Long page, Long pageSize) {
-        List<Long> articleIds = articleIdRepository.readAll(boardId, (page - 1) * pageSize, pageSize);
-        if (pageSize == articleIds.size()) {
-            log.info("[ArticleReadService.readAllArticleIds] return redis data.");
-            return articleIds;
-        }
-        log.info("[ArticleReadService.readAllArticleIds] return origin data.");
-        return articleClient.getArticlePage(boardId, page, pageSize).getData().stream()
-                .map(ArticleDetailDto::getArticleId)
-                .toList();
-    }
+//    private List<Long> readAllArticleIds(Long boardId, Long page, Long pageSize) {
+//        List<Long> articleIds = articleIdRepository.readAll(boardId, (page - 1) * pageSize, pageSize);
+//        if (pageSize == articleIds.size()) {
+//            log.info("[ArticleReadService.readAllArticleIds] return redis data.");
+//            return articleIds;
+//        }
+//        log.info("[ArticleReadService.readAllArticleIds] return origin data.");
+//        return articleClient.getArticlePage(boardId, page, pageSize).getData().stream()
+//                .map(ArticleDetailDto::getArticleId)
+//                .toList();
+//    }
 
-    private long count(Long boardId) {
-        Long count = boardArticleCountRepository.count(boardId);
-        if (count != null) {
-            return count;
-        }
-        count = articleClient.getArticleCount(boardId);
-        boardArticleCountRepository.update(boardId, count);
-        return count;
-    }
+//    private long count(Long boardId) {
+//        Long count = boardArticleCountRepository.count(boardId);
+//        if (count != null) {
+//            return count;
+//        }
+//        count = articleClient.getArticleCount(boardId);
+//        boardArticleCountRepository.update(boardId, count);
+//        return count;
+//    }
 
 //    public List<ArticleRead> readAllInfiniteScroll(Long boardId, Long lastArticleId, Long pageSize) {
 //        List<Long> articleIds = articleIdRepository.readAllInfiniteScroll(boardId, lastArticleId, pageSize);

@@ -36,7 +36,7 @@ public class ArticleIdCacheRepository implements ArticleIdRepository {
     }
 
     @Override
-    public List<Long> readAll(Long boardId, Long offset, Long limit) {
+    public List<Long> read(Long boardId, Long offset, Long limit) {
         return redisTemplate.opsForZSet()
                 .reverseRange(generateKey(boardId), offset, offset + limit - 1)
                 .stream().map(Long::valueOf).toList();
