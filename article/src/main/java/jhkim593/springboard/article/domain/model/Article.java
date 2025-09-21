@@ -56,8 +56,6 @@ public class Article {
     public ArticleDeletedEventPayload createDeletedEventPayload(Long boardArticleCount){
         return ArticleDeletedEventPayload.builder()
                 .articleId(this.getArticleId())
-                .title(this.getTitle())
-                .content(this.getContent())
                 .boardId(this.getBoardId())
                 .writerId(this.getWriterId())
                 .createdAt(this.getCreatedAt())
@@ -72,7 +70,6 @@ public class Article {
                 .content(this.getContent())
                 .boardId(this.getBoardId())
                 .writerId(this.getWriterId())
-                .createdAt(this.getCreatedAt())
                 .modifiedAt(this.getModifiedAt())
                 .build();
     }

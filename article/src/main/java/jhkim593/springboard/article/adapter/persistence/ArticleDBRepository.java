@@ -32,8 +32,8 @@ public class ArticleDBRepository implements ArticleRepository {
     }
 
     @Override
-    public List<ArticleDetailDto> findArticlePage(Long boardId, Long pageNo, Long pageSize) {
-        List<Long> articleIds = findArticleIds(boardId, pageNo, pageSize);
+    public List<ArticleDetailDto> find(Long boardId, Long offset, Long limit) {
+        List<Long> articleIds = findArticleIds(boardId, offset, limit);
 
         if (articleIds.isEmpty()) {
             return List.of();

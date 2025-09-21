@@ -88,7 +88,7 @@ class ArticleQueryServiceTest {
             articleRepository.save(article);
         }
 
-        Long pageNo = 0L;
+        Long pageNo = 1L;
         Long pageSize = 2L;
 
         // when
@@ -106,7 +106,7 @@ class ArticleQueryServiceTest {
     void findArticlePage_빈_페이지() {
         // given
         Long boardId = 200L;
-        Long pageNo = 0L;
+        Long pageNo = 1L;
         Long pageSize = 10L;
 
         // when
@@ -120,7 +120,7 @@ class ArticleQueryServiceTest {
     void findArticlePage_존재하지않는_보드() {
         // given
         Long nonExistentBoardId = 999L;
-        Long pageNo = 0L;
+        Long pageNo = 1L;
         Long pageSize = 10L;
 
         // when

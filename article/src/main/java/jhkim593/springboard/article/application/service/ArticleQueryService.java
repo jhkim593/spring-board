@@ -23,7 +23,7 @@ public class ArticleQueryService implements ArticleFinder {
 
     @Override
     public ArticlePageDto findArticlePage(Long boardId, Long pageNo, Long pageSize) {
-        List<ArticleDetailDto> articles = articleRepository.findArticlePage(boardId, pageNo, pageSize);
+        List<ArticleDetailDto> articles = articleRepository.find(boardId, ( pageNo -1 ) * pageSize, pageSize);
         return ArticlePageDto.create(articles, boardArticleCountFinder.count(boardId));
     }
 }
