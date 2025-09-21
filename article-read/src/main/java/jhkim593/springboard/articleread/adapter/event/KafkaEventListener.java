@@ -1,8 +1,6 @@
 package jhkim593.springboard.articleread.adapter.event;
 
-import jhkim593.springboard.articleread.application.provided.ArticleReadFinder;
 import jhkim593.springboard.common.event.Event;
-import jhkim593.springboard.common.event.EventType;
 import jhkim593.springboard.common.event.Topic;
 import jhkim593.springboard.common.event.payload.EventPayload;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class KafkaEventListener {
-    private final ArticleReadFinder finder;
+    private final EventHandlerFactory eventHandlerFactory;
 
     @KafkaListener(topics = {
             Topic.ARTICLE
@@ -23,12 +21,8 @@ public class KafkaEventListener {
     public void listen(String message, Acknowledgment ack) {
         log.info("[ArticleReadEventConsumer.listen] message={}", message);
         Event<EventPayload> event = Event.fromJson(message);
-        if (event.getType().equals(EventType.ARTICLE_REGISTERED)) {
-
-        }
-        if (event != null) {
-//            articleReadService.handleEvent(event);
-        }
+        EventHandler eventHandler = eventHandlerFactory.get(event.getType().name());
+        eventHandler.handle(event);
         ack.acknowledge();
     }
 }
