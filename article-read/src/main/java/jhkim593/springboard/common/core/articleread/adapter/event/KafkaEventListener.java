@@ -1,0 +1,28 @@
+package jhkim593.springboard.common.core.articleread.adapter.event;
+
+import jhkim593.springboard.common.core.common.event.model.EventData;
+import jhkim593.springboard.common.core.common.event.model.Topic;
+import jhkim593.springboard.common.core.common.event.payload.EventPayload;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class KafkaEventListener {
+    private final EventHandlerFactory eventHandlerFactory;
+
+    @KafkaListener(topics = {
+            Topic.ARTICLE
+    })
+    public void listen(String message, Acknowledgment ack) {
+        log.info("[ArticleReadEventConsumer.listen] message={}", message);
+        EventData<EventPayload> eventData = EventData.fromJson(message);
+        EventHandler eventHandler = eventHandlerFactory.get(eventData.getType().name());
+        eventHandler.handle(eventData);
+        ack.acknowledge();
+    }
+}
