@@ -31,3 +31,16 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
+
+  article-db:
+    image: postgres:13.15-alpine
+    container_name: board-article-postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: article
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: "8834"
+      TZ: Asia/Seoul
+    volumes:
+      - D:\pgsql\docker\board-article:/var/lib/postgresql/data
