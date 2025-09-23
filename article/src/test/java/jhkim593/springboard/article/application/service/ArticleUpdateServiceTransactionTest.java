@@ -1,9 +1,7 @@
 package jhkim593.springboard.article.application.service;
 
-import jhkim593.springboard.article.adapter.event.SpringEventListener;
 import jhkim593.springboard.article.adapter.persistence.jpa.ArticleJpaRepository;
 import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
-import jhkim593.springboard.article.application.required.repository.EventRepository;
 import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
@@ -11,13 +9,15 @@ import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.article.domain.error.ErrorCode;
 import jhkim593.springboard.article.domain.event.ArticleDeletedEvent;
-import jhkim593.springboard.article.domain.event.ArticleEvent;
 import jhkim593.springboard.article.domain.event.ArticleRegisteredEvent;
 import jhkim593.springboard.article.domain.event.ArticleUpdatedEvent;
 import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import jhkim593.springboard.common.error.CustomException;
-import jhkim593.springboard.common.event.EventType;
+import jhkim593.springboard.common.event.model.Event;
+import jhkim593.springboard.common.event.EventListener;
+import jhkim593.springboard.common.event.model.EventType;
+import jhkim593.springboard.common.event.repository.EventRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ class ArticleUpdateServiceTransactionTest {
     private EventRepository eventRepository;
 
     @MockitoSpyBean
-    private SpringEventListener eventListener;
+    private EventListener eventListener;
 
     @AfterEach
     public void clear() {
@@ -83,9 +83,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(article.get().getDeleted()).isFalse();
 
         // 이벤트 저장 확인
-        Optional<ArticleEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
+        Optional<Event> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
         assertThat(latestEvent).isPresent();
-        ArticleEvent event = latestEvent.get();
+        Event event = latestEvent.get();
         assertThat(event.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
         assertThat(event.getArticleId()).isEqualTo(result.getArticleId());
         assertThat(event.isPublished()).isFalse();
@@ -122,9 +122,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(article.get().getDeleted()).isFalse();
 
         // 이벤트 저장 확인
-        Optional<ArticleEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
+        Optional<Event> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
         assertThat(latestEvent).isPresent();
-        ArticleEvent event = latestEvent.get();
+        Event event = latestEvent.get();
         assertThat(event.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
         assertThat(event.getArticleId()).isEqualTo(result.getArticleId());
     }
@@ -151,9 +151,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(found.get().getContent()).isEqualTo(updateDto.getContent());
 
         // 이벤트 저장 확인
-        Optional<ArticleEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
+        Optional<Event> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
         assertThat(latestEvent).isPresent();
-        ArticleEvent event = latestEvent.get();
+        Event event = latestEvent.get();
         assertThat(event.getEventType()).isEqualTo(EventType.ARTICLE_UPDATED);
         assertThat(event.getArticleId()).isEqualTo(articleId);
     }
@@ -204,9 +204,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(updatedBoardCount.get().getArticleCount()).isEqualTo(1L);
 
         // 이벤트 저장 확인
-        Optional<ArticleEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
+        Optional<Event> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
         assertThat(latestEvent).isPresent();
-        ArticleEvent event = latestEvent.get();
+        Event event = latestEvent.get();
         assertThat(event.getEventType()).isEqualTo(EventType.ARTICLE_DELETED);
         assertThat(event.getArticleId()).isEqualTo(articleId);
     }
@@ -234,7 +234,7 @@ class ArticleUpdateServiceTransactionTest {
 
         // SpyBean을 사용하여 이벤트 리스너에서 실패하도록 설정
         doThrow(new RuntimeException())
-                .when(eventListener).registerEvent(any(ArticleRegisteredEvent.class));
+                .when(eventListener).beforeCommitEvent(any(ArticleRegisteredEvent.class));
 
         // when & then
         assertThatThrownBy(() -> articleUpdateService.register(registerDto))
@@ -262,7 +262,7 @@ class ArticleUpdateServiceTransactionTest {
 
         // 이벤트 처리 실패 설정
         doThrow(new RuntimeException())
-                .when(eventListener).registerEvent(any(ArticleUpdatedEvent.class));
+                .when(eventListener).beforeCommitEvent(any(ArticleUpdatedEvent.class));
 
         // when & then
         assertThatThrownBy(() -> articleUpdateService.update(articleId, updateDto))
@@ -290,7 +290,7 @@ class ArticleUpdateServiceTransactionTest {
 
         // 이벤트 처리 실패 설정
         doThrow(new RuntimeException())
-                .when(eventListener).registerEvent(any(ArticleDeletedEvent.class));
+                .when(eventListener).beforeCommitEvent(any(ArticleDeletedEvent.class));
 
         // when & then
         assertThatThrownBy(() -> articleUpdateService.delete(articleId))

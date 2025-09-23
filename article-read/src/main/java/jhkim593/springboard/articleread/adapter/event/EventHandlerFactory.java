@@ -1,6 +1,6 @@
 package jhkim593.springboard.articleread.adapter.event;
 
-import jhkim593.springboard.common.event.EventType;
+import jhkim593.springboard.common.event.model.EventType;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;

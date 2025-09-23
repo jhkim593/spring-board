@@ -1,9 +1,8 @@
 package jhkim593.springboard.articleread.adapter.event.handler;
 import jhkim593.springboard.articleread.adapter.event.EventHandler;
-import jhkim593.springboard.articleread.application.provided.ArticleReadFinder;
 import jhkim593.springboard.articleread.application.provided.ArticleReadUpdater;
-import jhkim593.springboard.common.event.Event;
-import jhkim593.springboard.common.event.EventType;
+import jhkim593.springboard.common.event.model.EventData;
+import jhkim593.springboard.common.event.model.EventType;
 import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,8 +13,8 @@ public class ArticleUpdatedEventHandler implements EventHandler<ArticleUpdatedEv
     private final ArticleReadUpdater articleReadUpdater;
 
     @Override
-    public void handle(Event<ArticleUpdatedEventPayload> event) {
-        articleReadUpdater.update(event.getPayload());
+    public void handle(EventData<ArticleUpdatedEventPayload> eventData) {
+        articleReadUpdater.update(eventData.getPayload());
     }
 
     @Override

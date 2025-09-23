@@ -6,7 +6,7 @@ import jhkim593.springboard.articleread.domain.error.ErrorCode;
 import jhkim593.springboard.common.client.article.ArticleClient;
 import jhkim593.springboard.common.dto.article.ArticleDetailDto;
 import jhkim593.springboard.common.error.CustomException;
-import jhkim593.springboard.common.event.DataSerializer;
+import jhkim593.springboard.common.event.util.DataSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,7 +16,6 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 @Repository

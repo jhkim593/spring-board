@@ -1,4 +1,4 @@
-package jhkim593.springboard.common.event;
+package jhkim593.springboard.common.event.model;
 
 public class Topic {
     public static final String ARTICLE = "article";

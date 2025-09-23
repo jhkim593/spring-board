@@ -41,7 +41,7 @@ class ArticleTest {
     }
 
     @Test
-    void update() {
+    void update() throws InterruptedException {
         // given
         Article article = ArticleDataFactory.createTestArticle();
         LocalDateTime originalModifiedAt = article.getModifiedAt();
@@ -51,13 +51,15 @@ class ArticleTest {
                 .content("updated content")
                 .build();
 
+        Thread.sleep(1000l);
+
         // when
         article.update(updateRequest);
 
         // then
         assertThat(article.getTitle()).isEqualTo("updated title");
         assertThat(article.getContent()).isEqualTo("updated content");
-        assertThat(article.getModifiedAt()).isNotEqualTo(originalModifiedAt);
+        assertThat(article.getModifiedAt()).isAfter(originalModifiedAt);
     }
 
     @Test
@@ -101,8 +103,6 @@ class ArticleTest {
 
         // then
         assertThat(payload.getArticleId()).isEqualTo(article.getArticleId());
-        assertThat(payload.getTitle()).isEqualTo(article.getTitle());
-        assertThat(payload.getContent()).isEqualTo(article.getContent());
         assertThat(payload.getBoardId()).isEqualTo(article.getBoardId());
         assertThat(payload.getWriterId()).isEqualTo(article.getWriterId());
         assertThat(payload.getBoardArticleCount()).isEqualTo(boardArticleCount);

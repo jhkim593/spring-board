@@ -44,6 +44,4 @@ public class SpringEventPublisher implements EventPublisher {
                         payload)
         );
     }
-
-
 }

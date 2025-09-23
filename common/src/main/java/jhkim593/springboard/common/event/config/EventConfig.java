@@ -1,6 +1,6 @@
-package jhkim593.springboard.common.event.outbox.config;
+package jhkim593.springboard.common.event.config;
 
-import jhkim593.springboard.common.event.Topic;
+import jhkim593.springboard.common.event.model.Topic;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.TopicConfig;
@@ -24,7 +24,8 @@ import java.util.concurrent.Executors;
 @EnableAsync
 @Configuration
 @EnableScheduling
-public class KafkaConfig {
+@ComponentScan("jhkim593.springboard.common.event")
+public class EventConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 

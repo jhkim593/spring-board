@@ -1,7 +1,6 @@
-package jhkim593.springboard.article.domain.event;
+package jhkim593.springboard.common.event.model;
 
 import jakarta.persistence.*;
-import jhkim593.springboard.common.event.EventType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,23 +10,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class ArticleEvent {
+public class Event {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)
     private EventType eventType;
     private Long articleId;
     @Column(columnDefinition = "TEXT")
-    private String payload;
+    private String message;
     private boolean published;
     private LocalDateTime createdAt;
 
-    public static ArticleEvent create(Long id, EventType eventType, Long articleId, String payload) {
-        return ArticleEvent.builder()
+    public static Event create(Long id, EventType eventType, Long articleId, String message) {
+        return Event.builder()
                 .id(id)
                 .eventType(eventType)
                 .articleId(articleId)
-                .payload(payload)
+                .message(message)
                 .published(false)
                 .createdAt(LocalDateTime.now())
                 .build();
