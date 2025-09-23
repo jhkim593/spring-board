@@ -1,9 +1,5 @@
 package jhkim593.springboard.common.snowflake;
 
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-
 import java.util.random.RandomGenerator;
 
 public class Snowflake implements DBIdGenerator {

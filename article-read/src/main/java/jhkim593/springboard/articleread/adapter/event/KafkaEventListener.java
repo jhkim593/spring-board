@@ -1,7 +1,7 @@
 package jhkim593.springboard.articleread.adapter.event;
 
-import jhkim593.springboard.common.event.Event;
-import jhkim593.springboard.common.event.Topic;
+import jhkim593.springboard.common.event.model.EventData;
+import jhkim593.springboard.common.event.model.Topic;
 import jhkim593.springboard.common.event.payload.EventPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ public class KafkaEventListener {
     })
     public void listen(String message, Acknowledgment ack) {
         log.info("[ArticleReadEventConsumer.listen] message={}", message);
-        Event<EventPayload> event = Event.fromJson(message);
-        EventHandler eventHandler = eventHandlerFactory.get(event.getType().name());
-        eventHandler.handle(event);
+        EventData<EventPayload> eventData = EventData.fromJson(message);
+        EventHandler eventHandler = eventHandlerFactory.get(eventData.getType().name());
+        eventHandler.handle(eventData);
         ack.acknowledge();
     }
 }

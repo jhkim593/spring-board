@@ -1,4 +1,4 @@
-package jhkim593.springboard.common.event;
+package jhkim593.springboard.common.event.model;
 
 import jhkim593.springboard.common.event.payload.*;
 import lombok.Getter;

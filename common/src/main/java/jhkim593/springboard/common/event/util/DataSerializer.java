@@ -1,4 +1,4 @@
-package jhkim593.springboard.common.event;
+package jhkim593.springboard.common.event.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
