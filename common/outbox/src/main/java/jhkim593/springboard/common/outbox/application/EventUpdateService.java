@@ -34,7 +34,7 @@ public class EventUpdateService implements EventUpdater {
 
     @Override
     public List<Event> findPendingEvents() {
-        return eventRepository.findAllByCreatedAtLessThanEqualOrderByCreatedAtAsc(
+        return eventRepository.findAllByCreatedAtLessThanEqualAndPublishedFalseOrderByCreatedAtAsc(
                 LocalDateTime.now().minusSeconds(10),
                 Pageable.ofSize(100)
         );

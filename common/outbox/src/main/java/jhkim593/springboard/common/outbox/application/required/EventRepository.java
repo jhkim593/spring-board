@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> findAllByCreatedAtLessThanEqualOrderByCreatedAtAsc(LocalDateTime from, Pageable pageable);
+    List<Event> findAllByCreatedAtLessThanEqualAndPublishedFalseOrderByCreatedAtAsc(LocalDateTime from, Pageable pageable);
     Optional<Event> findTopByOrderByCreatedAtDesc();
 }
