@@ -6,7 +6,6 @@ import feign.RedirectionInterceptor;
 import feign.Retryer;
 import feign.jackson.JacksonEncoder;
 import jhkim593.springboard.common.client.FeignErrorDecoder;
-import jhkim593.springboard.common.core.common.client.FeignErrorDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

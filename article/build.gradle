@@ -36,8 +36,8 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-database-postgresql'
 
-	implementation project(":common")
-
+	implementation project(":common:outbox")
+    implementation project(":common:core")
 	// querydsl
 	implementation 'com.querydsl:querydsl-sql:5.1.0'
 	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'

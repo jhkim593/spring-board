@@ -2,8 +2,8 @@ package jhkim593.springboard.common.client.article;
 
 import feign.Param;
 import feign.RequestLine;
-import jhkim593.springboard.common.core.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.core.common.dto.article.ArticlePageDto;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.dto.article.ArticlePageDto;
 
 public interface ArticleClient {
 
