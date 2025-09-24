@@ -13,15 +13,9 @@ CREATE TABLE article (
 -- CREATE INDEX idx_article_writer_id ON article(writer_id);
 -- CREATE INDEX idx_article_created_at ON article(created_at);
 
-CREATE TABLE article_event (
-    id BIGINT PRIMARY KEY,
-    event_type VARCHAR(50) NOT NULL,
-    article_id BIGINT NOT NULL,
-    message TEXT NOT NULL,
-    published BOOLEAN NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMP NOT NULL
+CREATE TABLE board_article_count (
+    board_id BIGINT PRIMARY KEY,
+    article_count BIGINT NOT NULL
 );
 
--- CREATE INDEX idx_article_event_article_id ON article_event(article_id);
--- CREATE INDEX idx_article_event_published ON article_event(published);
--- CREATE INDEX idx_article_event_created_at ON article_event(created_at);
+-- CREATE INDEX idx_board_article_count_board_id ON board_article_count(board_id);
