@@ -1,8 +1,8 @@
 package jhkim593.springboard.article.application.required.event;
 
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleUpdatedEventPayload;
 
 public interface EventPublisher {
     void registeredEventPublish(ArticleRegisteredEventPayload payload);

@@ -1,7 +1,6 @@
 package jhkim593.springboard.article.application.service;
 
 import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
-import jhkim593.springboard.article.application.required.repository.BoardArticleCountRepository;
 import jhkim593.springboard.article.common.DBCleanManager;
 import jhkim593.springboard.article.common.TestConfig;
 import jhkim593.springboard.article.domain.model.BoardArticleCount;

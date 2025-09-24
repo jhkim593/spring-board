@@ -1,8 +1,8 @@
 package jhkim593.springboard.articleread.adapter.event;
 
-import jhkim593.springboard.common.event.model.EventData;
-import jhkim593.springboard.common.event.model.Topic;
-import jhkim593.springboard.common.event.payload.EventPayload;
+import jhkim593.springboard.common.core.event.EventData;
+import jhkim593.springboard.common.core.event.Topic;
+import jhkim593.springboard.common.core.event.payload.EventPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

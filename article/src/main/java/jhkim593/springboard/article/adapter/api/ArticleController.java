@@ -6,8 +6,9 @@ import jhkim593.springboard.article.application.provided.BoardArticleCountFinder
 import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.dto.article.ArticlePageDto;
+
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.dto.article.ArticlePageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

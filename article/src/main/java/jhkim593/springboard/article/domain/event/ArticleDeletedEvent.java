@@ -1,8 +1,8 @@
 package jhkim593.springboard.article.domain.event;
 
-import jhkim593.springboard.common.event.model.EventData;
-import jhkim593.springboard.common.event.model.EventType;
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.EventData;
+import jhkim593.springboard.common.core.event.EventType;
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
 import lombok.Getter;
 
 @Getter

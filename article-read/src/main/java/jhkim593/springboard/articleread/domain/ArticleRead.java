@@ -1,15 +1,18 @@
 package jhkim593.springboard.articleread.domain;
 
 import jhkim593.springboard.articleread.domain.dto.ArticleReadDetailDto;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
-import lombok.Getter;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleUpdatedEventPayload;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleRead {
     private Long articleId;
     private String title;
@@ -76,44 +79,5 @@ public class ArticleRead {
                 .articleLikeCount(this.articleLikeCount)
                 .build();
     }
-
-//    public static ArticleQueryModel create(ArticleClient.ArticleResponse article, Long commentCount, Long likeCount) {
-//        ArticleQueryModel articleQueryModel = new ArticleQueryModel();
-//        articleQueryModel.articleId = article.getArticleId();
-//        articleQueryModel.title = article.getTitle();
-//        articleQueryModel.content = article.getContent();
-//        articleQueryModel.boardId = article.getBoardId();
-//        articleQueryModel.writerId = article.getWriterId();
-//        articleQueryModel.createdAt = article.getCreatedAt();
-//        articleQueryModel.modifiedAt = article.getModifiedAt();
-//        articleQueryModel.articleCommentCount = commentCount;
-//        articleQueryModel.articleLikeCount = likeCount;
-//        return articleQueryModel;
-//    }
-
-//    public void updateBy(CommentCreatedEventPayload payload) {
-//        this.articleCommentCount = payload.getArticleCommentCount();
-//    }
-//
-//    public void updateBy(CommentDeletedEventPayload payload) {
-//        this.articleCommentCount = payload.getArticleCommentCount();
-//    }
-//
-//    public void updateBy(ArticleLikedEventPayload payload) {
-//        this.articleLikeCount = payload.getArticleLikeCount();
-//    }
-//
-//    public void updateBy(ArticleUnlikedEventPayload payload) {
-//        this.articleLikeCount = payload.getArticleLikeCount();
-//    }
-//
-//    public void updateBy(ArticleUpdatedEventPayload payload) {
-//        this.title = payload.getTitle();
-//        this.content = payload.getContent();
-//        this.boardId = payload.getBoardId();
-//        this.writerId = payload.getWriterId();
-//        this.createdAt = payload.getCreatedAt();
-//        this.modifiedAt = payload.getModifiedAt();
-//    }
 }
 

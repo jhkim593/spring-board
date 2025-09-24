@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = { "jhkim593.springboard.common.event", "jhkim593.springboard.article"})
-@EntityScan(basePackages = {"jhkim593.springboard","jhkim593.springboard.article"})
+@EnableJpaRepositories(basePackages = { "jhkim593.springboard.common.outbox", "jhkim593.springboard.article"})
+@EntityScan(basePackages = {"jhkim593.springboard.common.outbox","jhkim593.springboard.article"})
 public class ArticleApplication {
 
 	public static void main(String[] args) {

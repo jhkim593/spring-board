@@ -4,9 +4,9 @@ import jhkim593.springboard.articleread.application.required.repository.ArticleR
 import jhkim593.springboard.articleread.domain.ArticleRead;
 import jhkim593.springboard.articleread.domain.error.ErrorCode;
 import jhkim593.springboard.common.client.article.ArticleClient;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.error.CustomException;
-import jhkim593.springboard.common.event.util.DataSerializer;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.error.CustomException;
+import jhkim593.springboard.common.core.util.DataSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;

@@ -1,7 +1,7 @@
 package jhkim593.springboard.article.application.required.repository;
 
 import jhkim593.springboard.article.domain.model.Article;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
 
 import java.util.List;
 

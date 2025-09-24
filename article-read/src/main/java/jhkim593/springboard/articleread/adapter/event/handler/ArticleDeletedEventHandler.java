@@ -2,9 +2,9 @@ package jhkim593.springboard.articleread.adapter.event.handler;
 
 import jhkim593.springboard.articleread.adapter.event.EventHandler;
 import jhkim593.springboard.articleread.application.provided.ArticleReadUpdater;
-import jhkim593.springboard.common.event.model.EventData;
-import jhkim593.springboard.common.event.model.EventType;
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.EventData;
+import jhkim593.springboard.common.core.event.EventType;
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

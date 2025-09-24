@@ -5,9 +5,9 @@ import jhkim593.springboard.articleread.application.required.repository.ArticleI
 import jhkim593.springboard.articleread.application.required.repository.ArticleReadRepository;
 import jhkim593.springboard.articleread.application.required.repository.BoardArticleCountRepository;
 import jhkim593.springboard.articleread.domain.ArticleRead;
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

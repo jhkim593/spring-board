@@ -7,8 +7,8 @@ import jhkim593.springboard.article.application.required.repository.ArticleRepos
 import jhkim593.springboard.article.domain.error.ErrorCode;
 import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.model.QArticle;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.error.CustomException;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.error.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

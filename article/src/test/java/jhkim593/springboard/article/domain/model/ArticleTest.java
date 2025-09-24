@@ -3,10 +3,10 @@ package jhkim593.springboard.article.domain.model;
 import jhkim593.springboard.article.common.ArticleDataFactory;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleUpdatedEventPayload;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

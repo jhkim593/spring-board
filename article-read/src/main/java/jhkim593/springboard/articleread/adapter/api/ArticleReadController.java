@@ -2,16 +2,8 @@ package jhkim593.springboard.articleread.adapter.api;
 
 
 import jhkim593.springboard.articleread.application.provided.ArticleReadFinder;
-import jhkim593.springboard.articleread.application.provided.ArticleReadUpdater;
-import jhkim593.springboard.articleread.domain.dto.ArticleReadDetailDto;
-import jhkim593.springboard.articleread.domain.dto.ArticleReadPageDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

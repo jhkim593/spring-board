@@ -4,10 +4,11 @@ import jhkim593.springboard.article.application.required.event.EventPublisher;
 import jhkim593.springboard.article.domain.event.ArticleDeletedEvent;
 import jhkim593.springboard.article.domain.event.ArticleRegisteredEvent;
 import jhkim593.springboard.article.domain.event.ArticleUpdatedEvent;
-import jhkim593.springboard.common.event.payload.ArticleDeletedEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleRegisteredEventPayload;
-import jhkim593.springboard.common.event.payload.ArticleUpdatedEventPayload;
-import jhkim593.springboard.common.snowflake.DBIdGenerator;
+
+import jhkim593.springboard.common.core.event.payload.ArticleDeletedEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleRegisteredEventPayload;
+import jhkim593.springboard.common.core.event.payload.ArticleUpdatedEventPayload;
+import jhkim593.springboard.common.core.snowflake.DBIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

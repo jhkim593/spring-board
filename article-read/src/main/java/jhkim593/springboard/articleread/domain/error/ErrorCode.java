@@ -1,6 +1,5 @@
 package jhkim593.springboard.articleread.domain.error;
-
-import jhkim593.springboard.common.error.BaseErrorCode;
+import jhkim593.springboard.common.core.error.BaseErrorCode;
 import lombok.Getter;
 
 @Getter

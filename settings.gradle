@@ -3,3 +3,6 @@ rootProject.name = 'spring-board'
 include "article"
 include "article-read"
 include "common"
+include "common:core"
+include "common:client"
+include "common:outbox"

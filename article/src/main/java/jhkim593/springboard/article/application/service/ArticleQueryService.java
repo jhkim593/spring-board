@@ -3,8 +3,8 @@ package jhkim593.springboard.article.application.service;
 import jhkim593.springboard.article.application.provided.ArticleFinder;
 import jhkim593.springboard.article.application.provided.BoardArticleCountFinder;
 import jhkim593.springboard.article.application.required.repository.ArticleRepository;
-import jhkim593.springboard.common.dto.article.ArticleDetailDto;
-import jhkim593.springboard.common.dto.article.ArticlePageDto;
+import jhkim593.springboard.common.core.dto.article.ArticleDetailDto;
+import jhkim593.springboard.common.core.dto.article.ArticlePageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

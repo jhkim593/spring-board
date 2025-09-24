@@ -7,7 +7,7 @@ import jhkim593.springboard.article.application.required.repository.ArticleRepos
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.article.domain.model.Article;
-import jhkim593.springboard.common.snowflake.DBIdGenerator;
+import jhkim593.springboard.common.core.snowflake.DBIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
