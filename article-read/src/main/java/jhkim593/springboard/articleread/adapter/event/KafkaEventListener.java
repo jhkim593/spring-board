@@ -21,7 +21,7 @@ public class KafkaEventListener {
     public void listen(String message, Acknowledgment ack) {
         log.info("[ArticleReadEventConsumer.listen] message={}", message);
         EventData<EventPayload> eventData = EventData.fromJson(message);
-        EventHandler eventHandler = eventHandlerFactory.get(eventData.getType().name());
+        EventHandler eventHandler = eventHandlerFactory.get(eventData.getType());
         eventHandler.handle(eventData);
         ack.acknowledge();
     }

@@ -12,7 +12,7 @@ public class EventHandlerFactory {
     public EventHandlerFactory(List<EventHandler> eventHandlers) {
         eventHandlers.forEach(e -> eventHandlerMap.put(e.getType(), e));
     }
-    public EventHandler get(String type) {
+    public EventHandler get(EventType type) {
         return eventHandlerMap.get(type);
     }
 }
