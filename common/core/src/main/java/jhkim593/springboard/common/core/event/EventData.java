@@ -34,9 +34,7 @@ public class EventData<T extends EventPayload> {
 
         EventType eventType = EventType.from(eventRaw.getType());
         EventPayload payload = DataSerializer.deserialize(
-            DataSerializer.serialize(eventRaw.getPayload()),
-            eventType.getPayloadClass()
-        );
+            DataSerializer.serialize(eventRaw.getPayload()), eventType.getPayloadClass());
 
         return new EventData<>(eventRaw.getId(), eventRaw.getAggregateId(), eventType, payload);
     }

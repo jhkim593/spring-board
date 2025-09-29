@@ -4,7 +4,7 @@ import jhkim593.springboard.common.core.event.EventData;
 import jhkim593.springboard.common.core.event.EventType;
 import jhkim593.springboard.common.core.event.payload.EventPayload;
 import jhkim593.springboard.common.outbox.application.provided.EventUpdater;
-import jhkim593.springboard.common.outbox.domain.Event;
+import jhkim593.springboard.common.outbox.domain.OutboxEvent;
 import jhkim593.springboard.common.outbox.application.required.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +21,9 @@ public class EventUpdateService implements EventUpdater {
 
     @Override
     @Transactional
-    public Event save(Long id, Long aggregateId, EventType eventType, EventPayload payload) {
+    public OutboxEvent save(Long id, Long aggregateId, EventType eventType, EventPayload payload) {
         return eventRepository.save(
-                Event.create(
+                OutboxEvent.create(
                         id,
                         eventType,
                         aggregateId,
@@ -33,7 +33,7 @@ public class EventUpdateService implements EventUpdater {
     }
 
     @Override
-    public List<Event> findPendingEvents() {
+    public List<OutboxEvent> findPendingEvents() {
         return eventRepository.findAllByCreatedAtLessThanEqualAndPublishedFalseOrderByCreatedAtAsc(
                 LocalDateTime.now().minusSeconds(10),
                 Pageable.ofSize(100)
@@ -43,7 +43,7 @@ public class EventUpdateService implements EventUpdater {
     @Override
     @Transactional
     public void publishedUpdate(Long id) {
-        Event event = eventRepository.findById(id).orElseThrow();
-        event.publishedUpdate();
+        OutboxEvent outboxEvent = eventRepository.findById(id).orElseThrow();
+        outboxEvent.publishedUpdate();
     }
 }

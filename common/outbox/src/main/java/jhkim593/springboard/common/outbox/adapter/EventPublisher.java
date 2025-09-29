@@ -2,7 +2,7 @@ package jhkim593.springboard.common.outbox.adapter;
 
 import jhkim593.springboard.common.core.event.EventType;
 import jhkim593.springboard.common.outbox.application.provided.EventUpdater;
-import jhkim593.springboard.common.outbox.domain.Event;
+import jhkim593.springboard.common.outbox.domain.OutboxEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -26,14 +26,14 @@ public class EventPublisher {
             scheduler = "messageRelayPublishPendingEventExecutor"
     )
     public void publishPendingEvent() {
-        List<Event> events = eventUpdater.findPendingEvents();
-        for (Event event : events) {
+        List<OutboxEvent> outboxEvents = eventUpdater.findPendingEvents();
+        for (OutboxEvent outboxEvent : outboxEvents) {
             try {
                 publishEvent(
-                        event.getId(),
-                        event.getEventType(),
-                        event.getArticleId().toString(),
-                        event.getMessage()
+                        outboxEvent.getId(),
+                        outboxEvent.getEventType(),
+                        outboxEvent.getArticleId().toString(),
+                        outboxEvent.getMessage()
                 );
             } catch (Exception e) {
                 log.error("pending event publish fail", e);

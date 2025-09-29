@@ -11,22 +11,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Event {
+public class OutboxEvent {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)
     private EventType eventType;
-    private Long articleId;
+    private Long aggregateId;
     @Column(columnDefinition = "TEXT")
     private String message;
     private boolean published;
     private LocalDateTime createdAt;
 
-    public static Event create(Long id, EventType eventType, Long articleId, String message) {
-        return Event.builder()
+    public static OutboxEvent create(Long id, EventType eventType, Long aggregateId, String message) {
+        return OutboxEvent.builder()
                 .id(id)
                 .eventType(eventType)
-                .articleId(articleId)
+                .aggregateId(aggregateId)
                 .message(message)
                 .published(false)
                 .createdAt(LocalDateTime.now())

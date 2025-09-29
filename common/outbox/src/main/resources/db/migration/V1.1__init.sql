@@ -1,7 +1,7 @@
-CREATE TABLE event (
+CREATE TABLE outbox_event (
     id BIGINT PRIMARY KEY,
     event_type VARCHAR(50) NOT NULL,
-    article_id BIGINT NOT NULL,
+    aggregate_id BIGINT NOT NULL,
     message TEXT NOT NULL,
     published BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL
