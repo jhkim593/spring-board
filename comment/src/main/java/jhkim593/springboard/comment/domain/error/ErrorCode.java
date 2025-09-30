@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode implements BaseErrorCode {
-    COMMENT_NOT_FOUND("C001", 404,"Comment not found");
+    COMMENT_NOT_FOUND("C001", 404,"Comment not found"),
+    COMMENT_MAX_DEPTH_EXCEED("C002", 400,"Comment max depth exceed");
 
     private String code;
     private int status;

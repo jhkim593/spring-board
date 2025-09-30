@@ -42,8 +42,8 @@ public class Comment {
         this.content = updateDto.getContent();
     }
 
-    public boolean isRoot() {
-        return parent == null;
+    public boolean isNotRoot() {
+        return parent != null;
     }
 
     public void delete() {
