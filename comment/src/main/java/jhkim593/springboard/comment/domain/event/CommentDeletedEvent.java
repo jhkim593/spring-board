@@ -13,7 +13,7 @@ public class CommentDeletedEvent extends EventData<CommentDeletedEventPayload> {
         super(
                 eventId,
                 payload.getArticleId(),
-                EventType.ARTICLE_DELETED,
+                EventType.COMMENT_DELETED,
                 payload
         );
     }
