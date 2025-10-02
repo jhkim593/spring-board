@@ -15,7 +15,7 @@ public class ArticleCommentCount {
     private Long articleId;
     private Long commentCount;
 
-    public static ArticleCommentCount create(Long articleId, Long commentCount) {
+    public static ArticleCommentCount create(Long articleId) {
         ArticleCommentCount articleCommentCount = new ArticleCommentCount();
         articleCommentCount.articleId = articleId;
         articleCommentCount.commentCount = 1L;
