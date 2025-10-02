@@ -87,7 +87,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(result.getArticleId());
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
         assertThat(outboxEvent.isPublished()).isFalse();
     }
 
@@ -126,7 +126,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(result.getArticleId());
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
     }
 
     @Test
@@ -155,7 +155,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_UPDATED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(articleId);
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
 
     @Test
@@ -208,7 +208,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_DELETED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(articleId);
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
 
     @Test
