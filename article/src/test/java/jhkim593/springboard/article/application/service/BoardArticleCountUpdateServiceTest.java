@@ -1,9 +1,9 @@
 package jhkim593.springboard.article.application.service;
 
 import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
-import jhkim593.springboard.article.common.DBCleanManager;
-import jhkim593.springboard.article.common.TestConfig;
 import jhkim593.springboard.article.domain.model.BoardArticleCount;
+import jhkim593.springboard.common.test.DBCleanManager;
+import jhkim593.springboard.common.test.TestConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
