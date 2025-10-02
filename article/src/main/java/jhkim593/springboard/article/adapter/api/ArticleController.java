@@ -54,8 +54,8 @@ public class ArticleController {
     }
 
     @DeleteMapping("/api/v1/articles/{id}")
-    public ResponseEntity<ArticleDetailDto> deleteArticle(@PathVariable Long id) {
-        Article article = articleUpdater.delete(id);
-        return ResponseEntity.ok(article.createDetailDto());
+    public ResponseEntity deleteArticle(@PathVariable Long id) {
+        articleUpdater.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

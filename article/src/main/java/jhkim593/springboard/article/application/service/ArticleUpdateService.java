@@ -44,7 +44,7 @@ public class ArticleUpdateService implements ArticleUpdater {
 
     @Override
     @Transactional
-    public Article delete(Long id) {
+    public void delete(Long id) {
         Article article = articleRepository.findById(id);
         article.delete();
         articleRepository.save(article);
@@ -52,7 +52,5 @@ public class ArticleUpdateService implements ArticleUpdater {
         Long count = boardArticleCountUpdater.decrease(article.getBoardId());
 
         eventPublisher.deletedEventPublish(article.createDeletedEventPayload(count));
-
-        return article;
     }
 }
