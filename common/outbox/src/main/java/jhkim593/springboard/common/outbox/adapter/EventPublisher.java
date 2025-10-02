@@ -32,7 +32,7 @@ public class EventPublisher {
                 publishEvent(
                         outboxEvent.getId(),
                         outboxEvent.getEventType(),
-                        outboxEvent.getArticleId().toString(),
+                        outboxEvent.getAggregateId().toString(),
                         outboxEvent.getMessage()
                 );
             } catch (Exception e) {

@@ -12,7 +12,7 @@ public enum EventType {
     ARTICLE_REGISTERED(ArticleRegisteredEventPayload.class, Topic.ARTICLE),
     ARTICLE_UPDATED(ArticleUpdatedEventPayload.class, Topic.ARTICLE),
     ARTICLE_DELETED(ArticleDeletedEventPayload.class, Topic.ARTICLE),
-    COMMENT_CREATED(CommentCreatedEventPayload.class, Topic.COMMENT),
+    COMMENT_CREATED(CommentRegisteredEventPayload.class, Topic.COMMENT),
     COMMENT_DELETED(CommentDeletedEventPayload.class, Topic.COMMENT),
     ARTICLE_LIKED(ArticleLikedEventPayload.class, Topic.LIKE),
     ARTICLE_UNLIKED(ArticleUnlikedEventPayload.class, Topic.LIKE),

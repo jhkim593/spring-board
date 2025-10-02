@@ -17,7 +17,7 @@ public class CommentDeletedEventPayload implements EventPayload {
     private String path;
     private Long articleId;
     private Long writerId;
-    private Boolean deleted;
+    private Boolean isDeleted;
     private LocalDateTime createdAt;
     private Long articleCommentCount;
 }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentCreatedEventPayload implements EventPayload {
+public class CommentRegisteredEventPayload implements EventPayload {
     private Long commentId;
     private String content;
     private String path;

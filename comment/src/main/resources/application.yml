@@ -1,12 +1,16 @@
 server:
-    port: 30030
+  port: 30032
 spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
   kafka:
     bootstrap-servers: localhost:9092
   application:
-    name: article-service
+    name: comment-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/article
+    url: jdbc:postgresql://localhost:5433/comment
     username: root
     driver-class-name: org.postgresql.Driver
     password: 8834

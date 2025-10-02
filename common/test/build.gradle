@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java-test-fixtures'
+}
+
+group = 'jhkim593.springboard.common'
+version = '0.0.1-SNAPSHOT'
+description = 'test'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
