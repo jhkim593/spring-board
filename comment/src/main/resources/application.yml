@@ -8,7 +8,7 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
   application:
-    name: comment--service
+    name: comment-service
   datasource:
     url: jdbc:postgresql://localhost:5433/comment
     username: root

@@ -1,10 +1,12 @@
 package jhkim593.springboard.common.core.dto.comment;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 public class CommentDetailDto {
     private Long commentId;
     private String content;

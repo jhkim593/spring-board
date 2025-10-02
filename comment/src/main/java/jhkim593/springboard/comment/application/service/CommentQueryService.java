@@ -14,7 +14,7 @@ public class CommentQueryService implements CommentFinder {
     private final CommentRepository commentRepository;
 
     @Override
-    public List<CommentDetailDto> findAll(Long articleId, Long parentCommentId, Long lasCommentId) {
-        return List.of();
+    public List<CommentDetailDto> find(Long articleId, Long parentCommentId, Long lasCommentId) {
+        return commentRepository.find(articleId, parentCommentId, lasCommentId, 50);
     }
 }

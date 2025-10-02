@@ -7,6 +7,7 @@ import jhkim593.springboard.comment.domain.dto.CommentRegisterDto;
 import jhkim593.springboard.comment.domain.dto.CommentUpdateDto;
 import jhkim593.springboard.comment.domain.error.ErrorCode;
 import jhkim593.springboard.comment.domain.model.Comment;
+import jhkim593.springboard.common.core.dto.comment.CommentDetailDto;
 import jhkim593.springboard.common.core.error.CustomException;
 import jhkim593.springboard.common.core.snowflake.DBIdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -19,30 +20,29 @@ public class CommentUpdateService implements CommentUpdater {
     private final DBIdGenerator idGenerator;
 
     @Override
-    public void register(CommentRegisterDto registerDto) {
+    public CommentDetailDto register(CommentRegisterDto registerDto) {
         long id = idGenerator.getId();
         Long parentCommentId = registerDto.getParentCommentId();
 
-        Comment parent = registerDto.getParentCommentId() == null ? null : commentRepository.findById(parentCommentId);
-        if(parent == null) {
-            Comment comment = Comment.create(id, registerDto, parent);
-            commentRepository.save(comment);
-            return;
+        if(parentCommentId == null) {
+            Comment comment = Comment.create(id, registerDto, id);
+            return commentRepository.save(comment).createDetailDto();
         }
 
+        Comment parent = commentRepository.findById(parentCommentId);
         if(parent.isNotRoot()){
             throw new CustomException(ErrorCode.COMMENT_MAX_DEPTH_EXCEED);
         }
 
-        Comment comment = Comment.create(id, registerDto, parent);
-        commentRepository.save(comment);
+        Comment comment = Comment.create(id, registerDto, parentCommentId);
+        commentRepository.save(comment).createDetailDto();
     }
 
     @Override
-    public void update(Long id, CommentUpdateDto updateDto) {
+    public CommentDetailDto update(Long id, CommentUpdateDto updateDto) {
         Comment comment = commentRepository.findById(id);
         comment.update(updateDto);
-        commentRepository.save(comment);
+        return commentRepository.save(comment).createDetailDto();
     }
 
     @Override

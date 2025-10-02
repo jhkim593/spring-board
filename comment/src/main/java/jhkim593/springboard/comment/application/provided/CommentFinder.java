@@ -5,5 +5,5 @@ import jhkim593.springboard.common.core.dto.comment.CommentDetailDto;
 import java.util.List;
 
 public interface CommentFinder {
-    List<CommentDetailDto> findAll(Long articleId, Long parentCommentId, Long lasCommentId);
+    List<CommentDetailDto> find(Long articleId, Long parentCommentId, Long lasCommentId);
 }

@@ -11,5 +11,5 @@ public interface CommentRepository {
     Comment findById(Long id);
     void delete(Long id);
     boolean hasChildComment(Long articleId, Long parentCommentId);
-    List<CommentDetailDto> find(Long articleId, Long parentCommentId, Long lastCommentId);
+    List<CommentDetailDto> find(Long articleId, Long parentCommentId, Long lastCommentId, int limit);
 }

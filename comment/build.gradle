@@ -33,6 +33,7 @@ dependencies {
 
     implementation project(":common:outbox")
     implementation project(":common:core")
+    testImplementation testFixtures(project(':common:test'))
     // querydsl
     implementation 'com.querydsl:querydsl-sql:5.1.0'
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
