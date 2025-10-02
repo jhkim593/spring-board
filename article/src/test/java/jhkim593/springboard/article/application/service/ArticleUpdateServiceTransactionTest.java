@@ -3,8 +3,6 @@ package jhkim593.springboard.article.application.service;
 import jhkim593.springboard.article.adapter.persistence.jpa.ArticleJpaRepository;
 import jhkim593.springboard.article.adapter.persistence.jpa.BoardArticleCountJpaRepository;
 import jhkim593.springboard.article.common.ArticleDataFactory;
-import jhkim593.springboard.article.common.DBCleanManager;
-import jhkim593.springboard.article.common.TestConfig;
 import jhkim593.springboard.article.domain.dto.ArticleRegisterDto;
 import jhkim593.springboard.article.domain.dto.ArticleUpdateDto;
 import jhkim593.springboard.article.domain.error.ErrorCode;
@@ -18,6 +16,8 @@ import jhkim593.springboard.common.core.event.EventType;
 import jhkim593.springboard.common.outbox.adapter.EventListener;
 import jhkim593.springboard.common.outbox.application.required.EventRepository;
 import jhkim593.springboard.common.outbox.domain.OutboxEvent;
+import jhkim593.springboard.common.test.DBCleanManager;
+import jhkim593.springboard.common.test.TestConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(result.getArticleId());
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
         assertThat(outboxEvent.isPublished()).isFalse();
     }
 
@@ -126,7 +126,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(result.getArticleId());
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
     }
 
     @Test
@@ -155,7 +155,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_UPDATED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(articleId);
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
 
     @Test
@@ -208,7 +208,7 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(latestEvent).isPresent();
         OutboxEvent outboxEvent = latestEvent.get();
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_DELETED);
-        assertThat(outboxEvent.getArticleId()).isEqualTo(articleId);
+        assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
 
     @Test
