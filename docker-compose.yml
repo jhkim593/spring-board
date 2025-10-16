@@ -42,6 +42,9 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: "8834"
       TZ: Asia/Seoul
+    command: [
+      'postgres','-c','wal_level=logical'
+    ]
     volumes:
       - /Users/jhkim593/Desktop/kjh2/pgsql/volumes/article:/var/lib/postgresql/data
 
@@ -53,6 +56,46 @@ services:
     command: redis-server --appendonly yes
     volumes:
       - redis-data:/data
+
+  kafka-connect:
+    image: debezium/connect:2.4
+    container_name: kafka-connect
+    depends_on:
+      - kafka
+      - article-db
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9093
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+      STATUS_STORAGE_TOPIC: connect_statuses
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+    ports:
+      - "8083:8083"
+
+  debezium-init:
+    image: curlimages/curl:latest
+    container_name: debezium-init
+    depends_on:
+      - kafka-connect
+    volumes:
+      - ./scripts:/scripts
+#    networks:
+#      - debezium-network
+    command: >
+      sh -c "
+        echo 'Waiting for Kafka Connect to be ready...'
+        while ! curl -f http://kafka-connect:8083/connectors; do
+          echo 'Kafka Connect not ready yet...'
+          sleep 10
+        done
+        echo 'Kafka Connect is ready! Creating connector...'
+        sleep 5
+        curl -X POST http://kafka-connect:8083/connectors -H 'Content-Type: application/json' -d @/scripts/postgresql-connector.json
+        echo 'Connector created successfully!'
+      "
 
 volumes:
   redis-data:
