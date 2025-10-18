@@ -8,16 +8,20 @@
     "database.password": "8834",
     "database.dbname": "article",
     "plugin.name": "pgoutput",
-    "publication.name": "debezium_publication",
+    "publication.name": "outbox_publication",
     "slot.name": "debezium_slot",
-    "table.include.list": "public.article,public.event",
-    "topic.prefix": "postgres",
+    "table.include.list": "public.outbox_event",
+    "topic.prefix": "article",
     "schema.history.internal.kafka.bootstrap.servers": "kafka:9093",
     "schema.history.internal.kafka.topic": "schema-changes.postgres",
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": false,
     "value.converter.schemas.enable": false,
-    "snapshot.mode": "initial"
+    "transforms": "unwrap,route",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.route.regex": "article.public.outbox_event",
+    "transforms.route.replacement": "article"
   }
 }

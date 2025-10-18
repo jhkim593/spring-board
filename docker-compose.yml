@@ -34,7 +34,7 @@ services:
 
   article-db:
     image: postgres:13.15-alpine
-    container_name: board-article-postgresql
+    container_name: article-postgresql
     ports:
       - "5432:5432"
     environment:
@@ -66,9 +66,9 @@ services:
     environment:
       BOOTSTRAP_SERVERS: kafka:9093
       GROUP_ID: 1
-      CONFIG_STORAGE_TOPIC: connect_configs
-      OFFSET_STORAGE_TOPIC: connect_offsets
-      STATUS_STORAGE_TOPIC: connect_statuses
+      CONFIG_STORAGE_TOPIC: article-connect-configs
+      OFFSET_STORAGE_TOPIC: article-connect_offsets
+      STATUS_STORAGE_TOPIC: article-connect_statuses
       CONFIG_STORAGE_REPLICATION_FACTOR: 1
       OFFSET_STORAGE_REPLICATION_FACTOR: 1
       STATUS_STORAGE_REPLICATION_FACTOR: 1

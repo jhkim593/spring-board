@@ -2,11 +2,8 @@ package jhkim593.springboard.common.outbox.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jhkim593.springboard.common.core.event.Topic;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.config.TopicConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -66,22 +62,6 @@ public class OutboxConfig {
     public Executor messageRelayPublishPendingEventExecutor() {
         return Executors.newSingleThreadScheduledExecutor();
     }
-
-    @Bean
-    public NewTopic articleTopic() {
-        return TopicBuilder.name(Topic.ARTICLE)
-                .partitions(3)                          // 파티션 수 설정
-                .replicas(1)                             // 복제 팩터 설정 (1)
-                .config(                                            // 추가 설정
-                        TopicConfig.RETENTION_MS_CONFIG,
-                        String.valueOf(30 * 24 * 60 * 60 * 1000L)  // 7일
-                )
-                .build();
-    }
-
-
-//        @Value("${spring.kafka.consumer.group-id}")
-//        private String groupId;
 
     // At Least Once
     @Bean
