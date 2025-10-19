@@ -48,7 +48,7 @@ services:
     volumes:
       - /Users/jhkim593/Desktop/kjh2/pgsql/volumes/article:/var/lib/postgresql/data
 
-  redis:
+  article-read-redis:
     image: redis:7-alpine
     container_name: article-read-redis
     ports:
@@ -57,8 +57,12 @@ services:
     volumes:
       - redis-data:/data
 
-  kafka-connect:
-    image: debezium/connect:2.4
+  article-kafka-connect:
+    build:
+      context: debezium-jmx-exporter
+      args:
+        DEBEZIUM_VERSION: 2.4
+        JMX_AGENT_VERSION: 0.15.0
     container_name: kafka-connect
     depends_on:
       - kafka
@@ -72,14 +76,43 @@ services:
       CONFIG_STORAGE_REPLICATION_FACTOR: 1
       OFFSET_STORAGE_REPLICATION_FACTOR: 1
       STATUS_STORAGE_REPLICATION_FACTOR: 1
+      KAFKA_OPTS: -javaagent:/kafka/etc/jmx_prometheus_javaagent.jar=8080:/kafka/etc/config.yml
+      #      KAFKA_OPTS: -javaagent:/kafka/etc/jmx_prometheus_javaagent.jar=8080:/kafka/etc/config.yml
+      JMXHOST: localhost
+      JMXPORT: 9999
+#      KAFKA_JMX_HOSTNAME: localhost
+#      KAFKA_JMX_PORT: 9999
+#      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999"
     ports:
       - "8083:8083"
+      - "9999:9999"
+  prometheus:
+    build:
+      context: debezium-prometheus
+      args:
+        PROMETHEUS_VERSION: v2.43.0
+    ports:
+      - 9090:9090
+    depends_on:
+      - article-kafka-connect
 
-  debezium-init:
+  grafana:
+    build:
+      context: debezium-grafana
+      args:
+        GRAFANA_VERSION: 9.4.7
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    environment:
+      - DS_PROMETHEUS=prometheus
+
+  article-debezium-init:
     image: curlimages/curl:latest
     container_name: debezium-init
     depends_on:
-      - kafka-connect
+      - article-kafka-connect
     volumes:
       - ./scripts:/scripts
 #    networks:
@@ -99,3 +132,4 @@ services:
 
 volumes:
   redis-data:
+#  grafana-data:
