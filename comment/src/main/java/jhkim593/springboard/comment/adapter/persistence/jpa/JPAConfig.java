@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaAuditing
-@EnableJpaRepositories(basePackages = { "jhkim593.springboard.common.outbox", "jhkim593.springboard.comment"})
-@EntityScan(basePackages = {"jhkim593.springboard.common.outbox","jhkim593.springboard.comment"})
+@EnableJpaRepositories(basePackages = {"jhkim593.springboard.comment"})
+@EntityScan(basePackages = {"jhkim593.springboard.comment"})
 public class JPAConfig {
     @PersistenceContext
     private EntityManager entityManager;
