@@ -13,9 +13,9 @@ import jhkim593.springboard.article.domain.model.Article;
 import jhkim593.springboard.article.domain.model.BoardArticleCount;
 import jhkim593.springboard.common.core.error.CustomException;
 import jhkim593.springboard.common.core.event.EventType;
-import jhkim593.springboard.common.outbox.adapter.EventListener;
-import jhkim593.springboard.common.outbox.application.required.EventRepository;
-import jhkim593.springboard.common.outbox.domain.OutboxEvent;
+import jhkim593.springboard.common.outboxcdc.adapter.EventListener;
+import jhkim593.springboard.common.outboxcdc.application.required.EventRepository;
+import jhkim593.springboard.common.outboxcdc.domain.OutboxEvent;
 import jhkim593.springboard.common.test.DBCleanManager;
 import jhkim593.springboard.common.test.TestConfig;
 import org.junit.jupiter.api.AfterEach;
@@ -83,9 +83,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(article.get().getDeleted()).isFalse();
 
         // 이벤트 저장 확인
-        Optional<OutboxEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
-        assertThat(latestEvent).isPresent();
-        OutboxEvent outboxEvent = latestEvent.get();
+        List<OutboxEvent> events = eventRepository.findAll();
+        assertThat(events).hasSize(1);
+        OutboxEvent outboxEvent = events.get(0);
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
         assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
         assertThat(outboxEvent.isPublished()).isFalse();
@@ -122,9 +122,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(article.get().getDeleted()).isFalse();
 
         // 이벤트 저장 확인
-        Optional<OutboxEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
-        assertThat(latestEvent).isPresent();
-        OutboxEvent outboxEvent = latestEvent.get();
+        List<OutboxEvent> events = eventRepository.findAll();
+        assertThat(events).isNotEmpty();
+        OutboxEvent outboxEvent = events.get(events.size() - 1);
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_REGISTERED);
         assertThat(outboxEvent.getAggregateId()).isEqualTo(result.getArticleId());
     }
@@ -151,9 +151,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(found.get().getContent()).isEqualTo(updateDto.getContent());
 
         // 이벤트 저장 확인
-        Optional<OutboxEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
-        assertThat(latestEvent).isPresent();
-        OutboxEvent outboxEvent = latestEvent.get();
+        List<OutboxEvent> events = eventRepository.findAll();
+        assertThat(events).isNotEmpty();
+        OutboxEvent outboxEvent = events.get(events.size() - 1);
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_UPDATED);
         assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
@@ -204,9 +204,9 @@ class ArticleUpdateServiceTransactionTest {
         assertThat(updatedBoardCount.get().getArticleCount()).isEqualTo(1L);
 
         // 이벤트 저장 확인
-        Optional<OutboxEvent> latestEvent = eventRepository.findTopByOrderByCreatedAtDesc();
-        assertThat(latestEvent).isPresent();
-        OutboxEvent outboxEvent = latestEvent.get();
+        List<OutboxEvent> events = eventRepository.findAll();
+        assertThat(events).isNotEmpty();
+        OutboxEvent outboxEvent = events.get(events.size() - 1);
         assertThat(outboxEvent.getEventType()).isEqualTo(EventType.ARTICLE_DELETED);
         assertThat(outboxEvent.getAggregateId()).isEqualTo(articleId);
     }
