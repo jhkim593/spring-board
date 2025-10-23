@@ -59,7 +59,7 @@ services:
 
   article-kafka-connect:
     build:
-      context: debezium-jmx-exporter
+      context: common/outbox-cdc/debezium-jmx-exporter
       args:
         DEBEZIUM_VERSION: 2.4
         JMX_AGENT_VERSION: 0.15.0
@@ -88,7 +88,7 @@ services:
       - "9999:9999"
   prometheus:
     build:
-      context: debezium-prometheus
+      context: common/outbox-cdc/debezium-prometheus
       args:
         PROMETHEUS_VERSION: v2.43.0
     ports:
@@ -98,7 +98,7 @@ services:
 
   grafana:
     build:
-      context: debezium-grafana
+      context: common/outbox-cdc/debezium-grafana
       args:
         GRAFANA_VERSION: 9.4.7
     ports:
@@ -115,6 +115,7 @@ services:
       - article-kafka-connect
     volumes:
       - ./scripts:/scripts
+      - ./common/outbox-cdc/connector:/connector
 #    networks:
 #      - debezium-network
     command: >
