@@ -1,8 +1,6 @@
 package jhkim593.springboard.common.outboxcdc.application;
 
 import jhkim593.springboard.common.core.event.EventData;
-import jhkim593.springboard.common.core.event.EventType;
-import jhkim593.springboard.common.core.event.payload.EventPayload;
 import jhkim593.springboard.common.outboxcdc.application.provided.EventUpdater;
 import jhkim593.springboard.common.outboxcdc.application.required.EventRepository;
 import jhkim593.springboard.common.outboxcdc.domain.OutboxEvent;
@@ -17,14 +15,7 @@ public class EventUpdateService implements EventUpdater {
 
     @Override
     @Transactional
-    public OutboxEvent save(Long id, Long aggregateId, EventType eventType, EventPayload payload) {
-        return eventRepository.save(
-                OutboxEvent.create(
-                        id,
-                        eventType,
-                        aggregateId,
-                        EventData.create(id, aggregateId, eventType, payload).toJson()
-                )
-        );
+    public OutboxEvent save(EventData eventData) {
+        return eventRepository.save(OutboxEvent.create(eventData));
     }
 }

@@ -16,11 +16,6 @@ public class EventListener {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void beforeCommitEvent(EventData eventData) {
-        eventUpdater.save(
-                eventData.getId(),
-                eventData.getAggregateId(),
-                eventData.getType(),
-                eventData.getPayload()
-        );
+        eventUpdater.save(eventData);
     }
 }

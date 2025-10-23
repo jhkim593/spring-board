@@ -32,7 +32,7 @@ public class EventData<T extends EventPayload> {
 
     public String toJson() {
         return DataSerializer.serialize(this);
-        }
+    }
 
     public String payloadJson() {
         return DataSerializer.serialize(payload);
