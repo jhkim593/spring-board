@@ -1,5 +1,7 @@
 package jhkim593.springboard.common.outbox.adapter;
 
+import jakarta.transaction.Transactional;
+import jhkim593.springboard.common.core.event.EventData;
 import jhkim593.springboard.common.core.event.EventType;
 import jhkim593.springboard.common.outbox.application.provided.EventUpdater;
 import jhkim593.springboard.common.outbox.domain.OutboxEvent;
@@ -29,25 +31,21 @@ public class EventPublisher {
         List<OutboxEvent> outboxEvents = eventUpdater.findPendingEvents();
         for (OutboxEvent outboxEvent : outboxEvents) {
             try {
-                publishEvent(
-                        outboxEvent.getId(),
-                        outboxEvent.getEventType(),
-                        outboxEvent.getAggregateId().toString(),
-                        outboxEvent.getMessage()
-                );
+                publishEvent(outboxEvent.toEventData());
             } catch (Exception e) {
                 log.error("pending event publish fail", e);
             }
         }
     }
-    public void publishEvent(Long eventId, EventType type, String partitionKey, String payload) throws Exception {
+
+    public void publishEvent(EventData eventData) throws Exception {
         try {
             kafkaTemplate.send(
-                    type.getTopic(),
-                    partitionKey,
-                    payload
+                    eventData.getType().getTopic(),
+                    eventData.getAggregateId().toString(),
+                    eventData.toJson()
             ).get(1, TimeUnit.SECONDS);
-            eventUpdater.publishedUpdate(eventId);
+            eventUpdater.publishedUpdate(eventData.getId());
         } catch (Exception e) {
             log.error("event send fail", e);
             throw e;

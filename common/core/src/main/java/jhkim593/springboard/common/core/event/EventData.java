@@ -4,26 +4,38 @@ import jhkim593.springboard.common.core.event.payload.EventPayload;
 import jhkim593.springboard.common.core.util.DataSerializer;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class EventData<T extends EventPayload> {
     private Long id;
     private Long aggregateId;
     private EventType type;
     private T payload;
+    private LocalDateTime createdAt;
 
     public EventData(Long id, Long aggregateId, EventType type, T payload) {
+        this(id, aggregateId, type, payload, LocalDateTime.now());
+    }
+
+    public EventData(Long id, Long aggregateId, EventType type, T payload, LocalDateTime createdAt) {
         this.id = id;
         this.aggregateId = aggregateId;
         this.type = type;
         this.payload = payload;
+        this.createdAt = createdAt;
     }
 
-    public static EventData<EventPayload> create(Long eventId, Long aggregateId, EventType type, EventPayload payload) {
-        return new EventData(eventId,aggregateId, type, payload);
+    public static EventData<EventPayload> create(Long eventId, Long aggregateId, EventType type, EventPayload payload, LocalDateTime createdAt) {
+        return new EventData(eventId,aggregateId, type, payload, createdAt);
     }
 
     public String toJson() {
         return DataSerializer.serialize(this);
+        }
+
+    public String payloadJson() {
+        return DataSerializer.serialize(payload);
     }
 
     public static EventData<EventPayload> fromJson(String json) {
@@ -36,7 +48,7 @@ public class EventData<T extends EventPayload> {
         EventPayload payload = DataSerializer.deserialize(
             DataSerializer.serialize(eventRaw.getPayload()), eventType.getPayloadClass());
 
-        return new EventData<>(eventRaw.getId(), eventRaw.getAggregateId(), eventType, payload);
+        return new EventData<>(eventRaw.getId(), eventRaw.getAggregateId(), eventType, payload, eventRaw.getCreatedAt());
     }
 
     @Getter
@@ -45,5 +57,6 @@ public class EventData<T extends EventPayload> {
         private Long aggregateId;
         private String type;
         private Object payload;
+        private LocalDateTime createdAt;
     }
 }

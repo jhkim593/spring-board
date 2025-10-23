@@ -21,15 +21,8 @@ public class EventUpdateService implements EventUpdater {
 
     @Override
     @Transactional
-    public OutboxEvent save(Long id, Long aggregateId, EventType eventType, EventPayload payload) {
-        return eventRepository.save(
-                OutboxEvent.create(
-                        id,
-                        eventType,
-                        aggregateId,
-                        EventData.create(id, aggregateId, eventType, payload).toJson()
-                )
-        );
+    public OutboxEvent save(EventData eventData) {
+        return eventRepository.save(OutboxEvent.create(eventData));
     }
 
     @Override

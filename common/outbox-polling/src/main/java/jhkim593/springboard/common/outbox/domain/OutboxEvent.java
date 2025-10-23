@@ -1,7 +1,10 @@
 package jhkim593.springboard.common.outbox.domain;
 
 import jakarta.persistence.*;
+import jhkim593.springboard.common.core.event.EventData;
 import jhkim593.springboard.common.core.event.EventType;
+import jhkim593.springboard.common.core.event.payload.EventPayload;
+import jhkim593.springboard.common.core.util.DataSerializer;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,22 +18,37 @@ public class OutboxEvent {
     @Id
     private Long id;
     @Enumerated(EnumType.STRING)
-    private EventType eventType;
+    private EventType type;
     private Long aggregateId;
     @Column(columnDefinition = "TEXT")
-    private String message;
+    private String payload;
     private boolean published;
     private LocalDateTime createdAt;
 
-    public static OutboxEvent create(Long id, EventType eventType, Long aggregateId, String message) {
+    public static OutboxEvent create(EventData eventData) {
         return OutboxEvent.builder()
-                .id(id)
-                .eventType(eventType)
-                .aggregateId(aggregateId)
-                .message(message)
+                .id(eventData.getId())
+                .type(eventData.getType())
+                .aggregateId(eventData.getAggregateId())
+                .payload(eventData.payloadJson())
                 .published(false)
-                .createdAt(LocalDateTime.now())
+                .createdAt(eventData.getCreatedAt())
                 .build();
+    }
+
+    public EventData toEventData() {
+        EventPayload eventPayload = DataSerializer.deserialize(
+                this.payload,
+                this.type.getPayloadClass()
+        );
+
+        return EventData.create(
+                this.id,
+                this.aggregateId,
+                this.type,
+                eventPayload,
+                this.createdAt
+        );
     }
 
     public void publishedUpdate() {

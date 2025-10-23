@@ -18,23 +18,14 @@ public class EventListener {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void beforeCommitEvent(EventData eventData) {
-        eventUpdater.save(
-                eventData.getId(),
-                eventData.getAggregateId(),
-                eventData.getType(),
-                eventData.getPayload()
-        );
+        eventUpdater.save(eventData);
     }
 
     @Async("messageRelayPublishEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void afterCommitEvent(EventData eventData) throws Exception {
         try {
-            eventPublisher.publishEvent(
-                    eventData.getId(),
-                    eventData.getType(),
-                    eventData.getAggregateId().toString(),
-                    eventData.toJson());
+            eventPublisher.publishEvent(eventData);
         } catch (Exception e) {
             log.error("event publish fail", e);
             throw e;
