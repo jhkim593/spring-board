@@ -114,7 +114,6 @@ services:
     depends_on:
       - article-kafka-connect
     volumes:
-      - ./scripts:/scripts
       - ./common/outbox-cdc/connector:/connector
 #    networks:
 #      - debezium-network
@@ -127,7 +126,7 @@ services:
         done
         echo 'Kafka Connect is ready! Creating connector...'
         sleep 5
-        curl -X POST http://kafka-connect:8083/connectors -H 'Content-Type: application/json' -d @/scripts/postgresql-connector.json
+        curl -X POST http://kafka-connect:8083/connectors -H 'Content-Type: application/json' -d @/connector/postgresql-connector.json
         echo 'Connector created successfully!'
       "
 
