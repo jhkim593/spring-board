@@ -1,6 +1,28 @@
 version: '3.8'
 
 services:
+  article-app:
+    build:
+      context: .
+      dockerfile: article/Dockerfile
+    container_name: article-app
+    depends_on:
+      article-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      article-read-redis:
+        condition: service_started
+    ports:
+      - "30030:30030"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://article-db:5432/article
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "8834"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_DATA_REDIS_HOST: article-read-redis
+      SPRING_DATA_REDIS_PORT: 6379
+
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
@@ -71,7 +93,6 @@ services:
     container_name: kafka-connect
     depends_on:
       - kafka
-      - article-db
       - article-app
     environment:
       BOOTSTRAP_SERVERS: kafka:9093
@@ -83,15 +104,30 @@ services:
       OFFSET_STORAGE_REPLICATION_FACTOR: 1
       STATUS_STORAGE_REPLICATION_FACTOR: 1
       KAFKA_OPTS: -javaagent:/kafka/etc/jmx_prometheus_javaagent.jar=8080:/kafka/etc/config.yml
-      #      KAFKA_OPTS: -javaagent:/kafka/etc/jmx_prometheus_javaagent.jar=8080:/kafka/etc/config.yml
       JMXHOST: localhost
       JMXPORT: 9999
-#      KAFKA_JMX_HOSTNAME: localhost
-#      KAFKA_JMX_PORT: 9999
-#      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999"
     ports:
       - "8083:8083"
-      - "9999:9999"
+
+  article-debezium-init:
+    image: curlimages/curl:latest
+    container_name: debezium-init
+    depends_on:
+      - article-kafka-connect
+    volumes:
+      - ./common/outbox-cdc/connector:/connector
+    command: >
+      sh -c "
+        echo 'Waiting for Kafka Connect to be ready...'
+        while ! curl -f http://kafka-connect:8083/connectors; do
+          echo 'Kafka Connect not ready yet...'
+          sleep 10
+        done
+        echo 'Kafka Connect is ready! Creating connector...'
+        curl -X POST http://kafka-connect:8083/connectors -H 'Content-Type: application/json' -d @/connector/postgresql-connector.json
+        echo 'Connector created successfully!'
+      "
+
   prometheus:
     build:
       context: common/outbox-cdc/debezium-prometheus
@@ -114,50 +150,6 @@ services:
     environment:
       - DS_PROMETHEUS=prometheus
 
-  article-app:
-    build:
-      context: .
-      dockerfile: article/Dockerfile
-    container_name: article-app
-    depends_on:
-      article-db:
-        condition: service_healthy
-      kafka:
-        condition: service_started
-      article-read-redis:
-        condition: service_started
-    ports:
-      - "30030:30030"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://article-db:5432/article
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: "8834"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_DATA_REDIS_HOST: article-read-redis
-      SPRING_DATA_REDIS_PORT: 6379
-
-  article-debezium-init:
-    image: curlimages/curl:latest
-    container_name: debezium-init
-    depends_on:
-      - article-kafka-connect
-    volumes:
-      - ./common/outbox-cdc/connector:/connector
-#    networks:
-#      - debezium-network
-    command: >
-      sh -c "
-        echo 'Waiting for Kafka Connect to be ready...'
-        while ! curl -f http://kafka-connect:8083/connectors; do
-          echo 'Kafka Connect not ready yet...'
-          sleep 10
-        done
-        echo 'Kafka Connect is ready! Creating connector...'
-        sleep 5
-        curl -X POST http://kafka-connect:8083/connectors -H 'Content-Type: application/json' -d @/connector/postgresql-connector.json
-        echo 'Connector created successfully!'
-      "
-
 volumes:
   redis-data:
-#  grafana-data:
+  article-db-data:
