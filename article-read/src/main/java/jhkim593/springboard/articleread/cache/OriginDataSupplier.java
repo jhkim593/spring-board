@@ -1,6 +1,6 @@
 package jhkim593.springboard.articleread.cache;
 
 @FunctionalInterface
-public interface OptimizedCacheOriginDataSupplier<T> {
+public interface OriginDataSupplier<T> {
     T get() throws Throwable;
 }

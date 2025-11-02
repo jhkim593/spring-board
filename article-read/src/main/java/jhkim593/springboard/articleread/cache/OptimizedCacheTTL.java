@@ -1,26 +1,33 @@
 package jhkim593.springboard.articleread.cache;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class OptimizedCacheTTL {
-    private final LocalDateTime logicalTTL;
-    public static final long PHYSICAL_TTL_DELAY_SECONDS = 3;
+    private Duration logicalTTL;
+    private LocalDateTime expiredAt;
+    public static final long PHYSICAL_TTL_DELAY_SECONDS = 5;
 
-    public OptimizedCacheTTL(LocalDateTime logicalTTL) {
+    public OptimizedCacheTTL(Duration logicalTTL) {
         this.logicalTTL = logicalTTL;
+        this.expiredAt = LocalDateTime.now().plus(logicalTTL);
     }
 
-    public static OptimizedCacheTTL create(LocalDateTime logicalTTL) {
+    public static OptimizedCacheTTL create(Duration logicalTTL) {
         return new OptimizedCacheTTL(logicalTTL);
     }
 
-    public LocalDateTime logicalTTL() {
-        return logicalTTL;
+    public LocalDateTime expiredAt() {
+        return expiredAt;
     }
-    public LocalDateTime physicalTTL() {
+    public Duration physicalTTl() {
         return logicalTTL.plusSeconds(PHYSICAL_TTL_DELAY_SECONDS);
     }
 }

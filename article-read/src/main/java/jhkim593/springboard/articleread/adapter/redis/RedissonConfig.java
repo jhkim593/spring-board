@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class RedissonConfig {
     @Value("${spring.data.redis.host}")
     private String host;
-    @Value("${spring.data.redis.port")
+    @Value("${spring.data.redis.port}")
     private int port;
 
 
@@ -20,7 +20,8 @@ public class RedissonConfig {
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress(REDISSON_HOST_PREFIX + host + ":" + port);
+        String address = "redis://" + host + ":" + port;
+        config.useSingleServer().setAddress(address);
         return Redisson.create(config);
     }
 

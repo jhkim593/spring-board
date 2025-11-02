@@ -5,6 +5,7 @@ import jhkim593.springboard.common.core.util.DataSerializer;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,16 +14,20 @@ public class OptimizedCache {
     private String data;
     private OptimizedCacheTTL ttl;
 
-    public static OptimizedCache of(Object data) {
+    public static OptimizedCache of(Object data, Duration ttl) {
         OptimizedCache optimizedCache = new OptimizedCache();
         optimizedCache.data = DataSerializer.serialize(data);
-        optimizedCache.ttl = OptimizedCacheTTL.create(LocalDateTime.now());
+        optimizedCache.ttl = OptimizedCacheTTL.create(ttl);
         return optimizedCache;
     }
 
     @JsonIgnore
     public boolean isNotExpired() {
-        return !LocalDateTime.now().isAfter(ttl.physicalTTL());
+        return !LocalDateTime.now().isAfter(ttl.expiredAt());
+    }
+
+    public Duration physicalTTL() {
+        return ttl.physicalTTl();
     }
 
     public <T> T parseData(Class<T> dataType) {
